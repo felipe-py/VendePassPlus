@@ -1,0 +1,22 @@
+version: '3'
+services:
+  servidor:
+    build:
+      context: .
+      dockerfile: Dockerfile_server
+    networks:
+      - vende_pass_network
+
+  cliente:
+    build:
+      context: .
+      dockerfile: Dockerfile_cliente
+    networks:
+      - vende_pass_network
+    stdin_open: true
+    tty: true
+
+networks:
+  vende_pass_network:
+    driver: bridge
+

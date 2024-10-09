@@ -1,0 +1,220 @@
+[
+    {
+        "ID": "30",
+        "trecho": "Natal -> Fortaleza",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Natal",
+        "cidadeChegada": "Fortaleza"
+    },
+    {
+        "ID": "31",
+        "trecho": "Natal -> Teresina",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Natal",
+        "cidadeChegada": "Teresina"
+    },
+    {
+        "ID": "32",
+        "trecho": "Natal -> S\u00e3o Paulo",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Natal",
+        "cidadeChegada": "S\u00e3o Paulo"
+    },
+    {
+        "ID": "33",
+        "trecho": "Natal -> Rio de Janeiro",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Natal",
+        "cidadeChegada": "Rio de Janeiro"
+    },
+    {
+        "ID": "34",
+        "trecho": "Natal -> Belo Horizonte",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Natal",
+        "cidadeChegada": "Belo Horizonte"
+    },
+    {
+        "ID": "35",
+        "trecho": "Natal -> Curitiba",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Natal",
+        "cidadeChegada": "Curitiba"
+    },
+    {
+        "ID": "36",
+        "trecho": "Natal -> Manaus",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Natal",
+        "cidadeChegada": "Manaus"
+    },
+    {
+        "ID": "37",
+        "trecho": "Teresina -> Salvador",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Salvador"
+    },
+    {
+        "ID": "38",
+        "trecho": "Teresina -> Recife",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Recife"
+    },
+    {
+        "ID": "39",
+        "trecho": "Teresina -> Fortaleza",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Fortaleza"
+    },
+    {
+        "ID": "40",
+        "trecho": "Teresina -> Natal",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Natal"
+    },
+    {
+        "ID": "41",
+        "trecho": "Teresina -> S\u00e3o Paulo",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "S\u00e3o Paulo"
+    },
+    {
+        "ID": "42",
+        "trecho": "Teresina -> Rio de Janeiro",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Rio de Janeiro"
+    },
+    {
+        "ID": "43",
+        "trecho": "Teresina -> Belo Horizonte",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Belo Horizonte"
+    },
+    {
+        "ID": "44",
+        "trecho": "Teresina -> Curitiba",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Curitiba"
+    },
+    {
+        "ID": "45",
+        "trecho": "Teresina -> Manaus",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Teresina",
+        "cidadeChegada": "Manaus"
+    },
+    {
+        "ID": "46",
+        "trecho": "S\u00e3o Paulo -> Salvador",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Salvador"
+    },
+    {
+        "ID": "47",
+        "trecho": "S\u00e3o Paulo -> Recife",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Recife"
+    },
+    {
+        "ID": "48",
+        "trecho": "S\u00e3o Paulo -> Fortaleza",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Fortaleza"
+    },
+    {
+        "ID": "49",
+        "trecho": "S\u00e3o Paulo -> Natal",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Natal"
+    },
+    {
+        "ID": "50",
+        "trecho": "S\u00e3o Paulo -> Teresina",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Teresina"
+    },
+    {
+        "ID": "51",
+        "trecho": "S\u00e3o Paulo -> Rio de Janeiro",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Rio de Janeiro"
+    },
+    {
+        "ID": "52",
+        "trecho": "S\u00e3o Paulo -> Belo Horizonte",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Belo Horizonte"
+    },
+    {
+        "ID": "53",
+        "trecho": "S\u00e3o Paulo -> Curitiba",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Curitiba"
+    },
+    {
+        "ID": "54",
+        "trecho": "S\u00e3o Paulo -> Manaus",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "S\u00e3o Paulo",
+        "cidadeChegada": "Manaus"
+    },
+    {
+        "ID": "55",
+        "trecho": "Rio de Janeiro -> Salvador",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Rio de Janeiro",
+        "cidadeChegada": "Salvador"
+    },
+    {
+        "ID": "56",
+        "trecho": "Rio de Janeiro -> Recife",
+        "assentos_disponiveis": 19,
+        "cidadeSaida": "Rio de Janeiro",
+        "cidadeChegada": "Recife"
+    },
+    {
+        "ID": "57",
+        "trecho": "Rio de Janeiro -> Fortaleza",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Rio de Janeiro",
+        "cidadeChegada": "Fortaleza"
+    },
+    {
+        "ID": "58",
+        "trecho": "Rio de Janeiro -> Natal",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Rio de Janeiro",
+        "cidadeChegada": "Natal"
+    },
+    {
+        "ID": "59",
+        "trecho": "Rio de Janeiro -> Teresina",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Rio de Janeiro",
+        "cidadeChegada": "Teresina"
+    },
+    {
+        "ID": "60",
+        "trecho": "Rio de Janeiro -> S\u00e3o Paulo",
+        "assentos_disponiveis": 20,
+        "cidadeSaida": "Rio de Janeiro",
+        "cidadeChegada": "S\u00e3o Paulo"
+    }
+]
+

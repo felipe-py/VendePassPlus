@@ -1,0 +1,7 @@
+# python3 == 3.12.6
+# socket
+# threading
+# struct
+# json
+# os
+# pathlib

@@ -1,0 +1,19 @@
+# Usar imagem base do Python
+FROM python:3.8
+
+# Definir diretório de trabalho
+WORKDIR /app
+
+# Copiar arquivos necessários
+# COPY ./models/client/ /app/models/client/
+# COPY App_main.py /app
+# COPY requirements.txt /app
+COPY . /app
+
+ENV PYTHONUNBUFFERED=1
+# Instalar dependências se houver
+RUN pip install -r requirements.txt
+
+# Definir o comando para rodar o cliente
+CMD ["python3", "App_main.py"]
+
