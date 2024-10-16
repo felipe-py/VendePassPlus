@@ -42,11 +42,20 @@ def salvar_dados(arquivo, BD):
         print(f"Erro ao salvar dados: {e}")
 
 # Funções específicas para carregar as rotas, passagens e usuarios. Elas rotornam seus respectivos Bancos de Dados(BD)
-def carregar_rotas():
-    diretorio_das_rotas = os.path.join(diretorio_dos_BD_1, 'rotas_server_1.json')
-    return carregar_dados(diretorio_das_rotas)
+def carregar_rotas(servidor):
+    
+    if servidor == 1:
+        diretorio_das_rotas = os.path.join(diretorio_dos_BD_1, 'rotas_server_1.json')
+        return carregar_dados(diretorio_das_rotas)
+    
+    if servidor == 2:
+        diretorio_das_rotas = os.path.join(diretorio_dos_BD_1, 'rotas_server_2.json')
+        return carregar_dados(diretorio_das_rotas)
 
-
+    if servidor == 3:
+        diretorio_das_rotas = os.path.join(diretorio_dos_BD_1, 'rotas_server_3.json')
+        return carregar_dados(diretorio_das_rotas)
+    
 def carregar_passagens():
     diretorio_das_passagens = os.path.join(diretorio_dos_BD_1, 'passagens_server_1.json')
     return carregar_dados(diretorio_das_passagens)
