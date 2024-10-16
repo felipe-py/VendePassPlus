@@ -15,6 +15,7 @@ diretorio_dos_BD_1 = diretorio_do_servidor.parent.parent / 'dados' / 'server1'
 diretorio_dos_BD_2 = diretorio_do_servidor.parent.parent / 'dados' / 'server2'
 diretorio_dos_BD_3 = diretorio_do_servidor.parent.parent / 'dados' / 'server3'
 
+
 # Função para fracionar respostas muito grandes em pedaços menores.
 def enviar_resposta(conexao_servidor, resposta):
     resposta_json = json.dumps(resposta)
@@ -48,11 +49,11 @@ def carregar_rotas(servidor):
         diretorio_das_rotas = os.path.join(diretorio_dos_BD_1, 'rotas_server_1.json')
         return carregar_dados(diretorio_das_rotas)
     
-    if servidor == 2:
+    elif servidor == 2:
         diretorio_das_rotas = os.path.join(diretorio_dos_BD_1, 'rotas_server_2.json')
         return carregar_dados(diretorio_das_rotas)
 
-    if servidor == 3:
+    elif servidor == 3:
         diretorio_das_rotas = os.path.join(diretorio_dos_BD_1, 'rotas_server_3.json')
         return carregar_dados(diretorio_das_rotas)
     
