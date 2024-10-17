@@ -13,7 +13,7 @@ def listar_trechos():
 
 # Endpoint para comprar um trecho da companhia A
 @app.route('/comprar', methods=['POST'])
-def reservar_trecho():
+def comprar_trecho():
     dados = request.get_json()
     trecho_id = dados.get('trecho_id')
     
@@ -26,3 +26,15 @@ def reservar_trecho():
         
         return jsonify({"status": "sucesso", "reserva_id": trecho_id, "detalhes": trecho})
     return jsonify({"status": "falha", "mensagem": "Trecho não encontrado"}), 404
+
+# FUNÇÃO PARA QUE O SERVIDDOR A CONSULTE OUTROS SERVIDORES
+def consultar_trechos(servico_url, id_trecho):
+    """Consulta trechos disponíveis em um servidor específico."""
+    # EM TESE DEVE CHAMAR O ENDPOINT DE BUSCA DE TRECHOS DA COMPANHIA
+    try:
+        resposta = requests.get(f"{servico_url}/trechos", params={"ID": id_trecho})
+        resposta.raise_for_status()  # Levanta um erro para respostas com status de erro
+        return resposta.json()  # Retorna o JSON com os trechos encontrados
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao consultar o servidor {servico_url}: {e}")
+        return None  # Retorna None em caso de erro
