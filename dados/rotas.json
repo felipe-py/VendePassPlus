@@ -121,14 +121,14 @@
     {
         "ID": "78",
         "trecho": "Curitiba -> S\u00e3o Paulo",
-        "assentos_disponiveis": 19,
+        "assentos_disponiveis": 20,
         "cidadeSaida": "Curitiba",
         "cidadeChegada": "S\u00e3o Paulo"
     },
     {
         "ID": "79",
         "trecho": "Curitiba -> Rio de Janeiro",
-        "assentos_disponiveis": 19,
+        "assentos_disponiveis": 20,
         "cidadeSaida": "Curitiba",
         "cidadeChegada": "Rio de Janeiro"
     },
@@ -170,7 +170,7 @@
     {
         "ID": "85",
         "trecho": "Manaus -> Natal",
-        "assentos_disponiveis": 20,
+        "assentos_disponiveis": 19,
         "cidadeSaida": "Manaus",
         "cidadeChegada": "Natal"
     },
@@ -184,14 +184,14 @@
     {
         "ID": "87",
         "trecho": "Manaus -> S\u00e3o Paulo",
-        "assentos_disponiveis": 20,
+        "assentos_disponiveis": 19,
         "cidadeSaida": "Manaus",
         "cidadeChegada": "S\u00e3o Paulo"
     },
     {
         "ID": "88",
         "trecho": "Manaus -> Rio de Janeiro",
-        "assentos_disponiveis": 20,
+        "assentos_disponiveis": 19,
         "cidadeSaida": "Manaus",
         "cidadeChegada": "Rio de Janeiro"
     },

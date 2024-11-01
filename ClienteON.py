@@ -48,12 +48,12 @@ def main():
             espacos()
             # print("Conectado.")
             espacos()
-            break
+            # break
         except ConnectionRefusedError:
             print(f"A conexão com o servidor {HOST} na porta {PORT} falhou")
             time.sleep(1)
 
-    while True:
+    # while True:
         user = '0'
         while user == '0':
             try:
@@ -92,6 +92,9 @@ def main():
                         mais_rotas = 's'
                         while mais_rotas.lower() == 'y' or mais_rotas.lower() == 's':
                             rotaID = input("\nInsira o ID da rota desejada ou pressione '0' para cancelar a operação: ")
+                            while int(rotaID)<0 or int(rotaID)>90:
+                                print(f"Não há rota {rotaID} no sistema. Por favor selecione uma rota valida.\n")
+                                rotaID = input("\nInsira o ID da rota desejada ou pressione '0' para cancelar a operação: ")
                             if int(rotaID) == 0:
                                 print("saindo")
                                 break
@@ -149,10 +152,19 @@ def main():
                             try:
                                 cancelar_compra(s1, passagem_a_ser_cancelada, user)
                             except:
-                                try:
-                                    cancelar_compra(s2, passagem_a_ser_cancelada, user)
-                                except:
-                                    cancelar_compra(s3, passagem_a_ser_cancelada, user)
+                                pass
+                            try:
+                                cancelar_compra(s2, passagem_a_ser_cancelada, user)
+                            except:
+                                pass
+                            try:
+                                cancelar_compra(s3, passagem_a_ser_cancelada, user)
+                            except:
+                                pass
+                                # try:
+                                #     cancelar_compra(s2, passagem_a_ser_cancelada, user)
+                                # except:
+                                #     cancelar_compra(s3, passagem_a_ser_cancelada, user)
                         # companhia = input(" De qual companhia você deseja cancelar a passagem? '0' para sair\n")
                         # while companhia.lower() != 'a' and companhia.lower() != 'b' and companhia.lower() != 'c' and companhia != '0':
                         #     companhia = input("Por favor selecione uma companhia válida (A,B ou C)\n")

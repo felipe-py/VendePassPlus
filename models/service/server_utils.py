@@ -244,6 +244,9 @@ def tratar_cliente(conexao_servidor, usuarios, passagens, rotas):
             dados = json.loads(mensagem)
             opcode = dados['opcode']
             conteudo = dados['dados']
+            
+            #Atualizando o arquivo que pode ser alterado por outros servidores.
+            usuarios = carregar_usuarios()
 
             print(f"os dados enviados foram {conteudo}")
             if opcode == 1: 
