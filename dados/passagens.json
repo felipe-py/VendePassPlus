@@ -1,0 +1,14 @@
+[
+    {
+        "id_passagem": 66,
+        "cliente_id": "1",
+        "rota": "Curitiba -> Rio de Janeiro",
+        "estaCancelado": false
+    },
+    {
+        "id_passagem": 67,
+        "cliente_id": "1",
+        "rota": "Curitiba -> S\u00e3o Paulo",
+        "estaCancelado": false
+    }
+]

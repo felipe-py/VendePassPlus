@@ -91,13 +91,13 @@
                 "id_passagem": 25,
                 "cliente_id": "1",
                 "rota": "Natal -> Teresina",
-                "estaCancelado": false
+                "estaCancelado": 1
             },
             {
                 "id_passagem": 27,
                 "cliente_id": "1",
                 "rota": "Salvador -> Recife",
-                "estaCancelado": false
+                "estaCancelado": 1
             },
             {
                 "id_passagem": 28,
@@ -188,6 +188,60 @@
                 "cliente_id": "1",
                 "rota": "Belo Horizonte -> Natal",
                 "estaCancelado": 1
+            },
+            {
+                "id_passagem": 1,
+                "cliente_id": "1",
+                "rota": "Natal -> Curitiba",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 1,
+                "cliente_id": "1",
+                "rota": "Teresina -> Manaus",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 1,
+                "cliente_id": "1",
+                "rota": "Natal -> Manaus",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 1,
+                "cliente_id": "1",
+                "rota": "Manaus -> Salvador",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 1,
+                "cliente_id": "1",
+                "rota": "Manaus -> Rio de Janeiro",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 1,
+                "cliente_id": "1",
+                "rota": "Belo Horizonte -> Natal",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 1,
+                "cliente_id": "1",
+                "rota": "Manaus -> S\u00e3o Paulo",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 66,
+                "cliente_id": "1",
+                "rota": "Curitiba -> Rio de Janeiro",
+                "estaCancelado": false
+            },
+            {
+                "id_passagem": 67,
+                "cliente_id": "1",
+                "rota": "Curitiba -> S\u00e3o Paulo",
+                "estaCancelado": false
             }
         ]
     },

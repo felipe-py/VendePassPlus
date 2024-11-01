@@ -71,29 +71,7 @@ def mostrar_rotas(s1):
 
 #Essa função realiza a compra de passagens, ela chama 'mostrar_rotas' para que o usuário possa ver as rotas disponíveis
 #antes de realizar a compra, o tratamento de solicitações improprias se dá no servidor.
-def comprar_passagem(s1, user):
-    rotas_a_serem_compradas= []
-    mostrar_rotas(s1)
-    # rotaID = input("\nInsira o ID da rota desejada: ")
-    # rotas_a_serem_compradas.append(rotaID)
-
-    # mais_rotas = input("\nGostaria de comprar mais uma rota?[y/N]\n: ")
-    mais_rotas = 's'
-    while mais_rotas.lower() == 'y' or mais_rotas.lower() == 's':
-        rotaID = input("\nInsira o ID da rota desejada ou pressione '0' para cancelar a operação: ")
-        if int(rotaID) == 0:
-            print("retornando ao menu")
-            return
-        rotas_a_serem_compradas.append(rotaID)
-        espacos()
-        mais_rotas = input("\nGostaria de comprar mais uma rota?[y/N]\n: ")
-
-    mensagem = {
-        'cliente_id': user,
-        #'rotaID': rotaID
-        'rotas_a_serem_compradas': rotas_a_serem_compradas
-    }
-
+def comprar_passagem(user, s1, mensagem):
     resposta = enviar_dados(s1, 3, mensagem)
 
     while (resposta != 'Compra realizada' and resposta != 'Acabaram as vagas') :
@@ -135,10 +113,9 @@ def mostrar_passagens(s1, user):
 
 #Função para cancelar compra, funciona de forma similar a compra, manda o usuário pois o processo de cancelamento opera em
 #dois bancos de dado, e em um deles o objeto é encontrado a partir do usuário.
-def cancelar_compra(s1, user):
-    mostrar_passagens(s1, user)
-    passagemID = input("\nInsira o ID da passagem ou pressione '0' para cancelar a operação: ")
-
+def cancelar_compra(s1, passagemID, user):
+    # mostrar_passagens(s1, user)
+    # passagemID = input("\nInsira o ID da passagem ou pressione '0' para cancelar a operação: ")
     mensagem = {'id_passagem': passagemID, 'userID': user}
     resposta = enviar_dados(s1, 5, mensagem)
     print(f"{resposta}\n")
@@ -149,7 +126,7 @@ def espacos():
     print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
 
 #Menu do programa, fica rodando contínuamente para que depois de um operação o usuário possa realizar outras sem ter que logar novamente.
-def menu(s1, user):
+def menu(user):
     while True:
         print(f"Bem vindo(a) {user}, o que gostaria de fazer?\n\n")
         print("1. Comprar uma passagem")
@@ -158,13 +135,14 @@ def menu(s1, user):
 
         operacao = input("\n: ")
         espacos()
+        return operacao
 
-        if operacao == '1':
-            comprar_passagem(s1, user)
-        elif operacao == '2':
-            cancelar_compra(s1, user)
-        elif operacao == '3':
-            logout(s1)
-            break
-        else:
-            print("\nPor favor, selecione uma opção válida.")
+        # if operacao == '1':
+        #     comprar_passagem(s1, user)
+        # elif operacao == '2':
+        #     cancelar_compra(s1, user)
+        # elif operacao == '3':
+        #     logout(s1)
+        #     break
+        # else:
+        #     print("\nPor favor, selecione uma opção válida.")

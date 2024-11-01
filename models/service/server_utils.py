@@ -3,6 +3,7 @@ import threading
 import struct
 import json
 import os
+import time
 from pathlib import Path
 
 # Criado o MUTEX que irá controlar as operações em zonas críticas (na prática as alterações no BD).
@@ -18,6 +19,20 @@ def enviar_resposta(conexao_servidor, resposta):
     # Fracione a mensagem em pedaços de 1024 bytes
     for i in range(0, len(resposta_json), 1024):
         conexao_servidor.sendall(resposta_json[i:i + 1024].encode())
+
+# Função para realizar a conexão entre servidores, diferente da conexão entre cliente e servidor, essa tenta a reconexão
+def conectar_com_servidor(HOST, PORT, tempo):
+    while True:
+        print(f"tentando conectar a {HOST} na porta {PORT}")
+        try:
+            s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s1.connect((HOST, PORT))
+            print(f"conectado a {HOST} na porta {PORT}")
+            time.sleep(30)
+            return
+        except:
+            print(f"Erro ao conectar ao servidor")
+            time.sleep(30)
 
 # Função para carregar dados de forma genérica
 def carregar_dados(arquivo):
@@ -41,14 +56,17 @@ def salvar_dados(arquivo, BD):
 # Funções específicas para carregar as rotas, passagens e usuarios. Elas rotornam seus respectivos Bancos de Dados(BD)
 def carregar_rotas(servidor):
     diretorio_das_rotas = os.path.join(diretorio_dos_BD, f'server{servidor}/rotas_server_{servidor}.json')
+    print(f"Arquivo de rotas: {diretorio_das_rotas}\n")
     return carregar_dados(diretorio_das_rotas)
     
 def carregar_passagens(servidor):
     diretorio_das_passagens = os.path.join(diretorio_dos_BD, f'server{servidor}/passagens_server_{servidor}.json')
+    print(f"Arquivo das passagens: {diretorio_das_passagens}\n")
     return carregar_dados(diretorio_das_passagens)
 
 def carregar_usuarios():
     diretorio_dos_usuarios = os.path.join(diretorio_dos_BD, 'clientes.json')
+    print(f"Arquivo de usuarios: {diretorio_dos_usuarios}\n")
     return carregar_dados(diretorio_dos_usuarios)
 
 # Funções para atualizar os bancos de dados. Elas recebem um BD que foi editado(como 'rotas') e chama a função
@@ -77,10 +95,12 @@ def logar(id, senha, usuarios):
     return "Login falhou"
 
 # Função para contar o numero de passagens já criadas, importante para determinar o ID de uma nova passagem a ser gerada
-def contar_passagens(passagens):
+def contar_passagens(usuarios):
     contador = 1
-    for passagem in passagens:
-        contador +=1
+    for user in usuarios:
+        for passagem in user['passagens']:
+            contador +=1
+    print(contador)
     return contador
 
 
@@ -102,7 +122,7 @@ def comprar_passagem(userID, rotas_a_serem_compradas , rotas, passagens, usuario
                     if rota_no_BD['assentos_disponiveis'] > 0:
                         print(f"Há assentos disponíveis na rota {rota_compra}.")
                         # Atualiza o contador a cada nova passagem para usar no ID
-                        cont = contar_passagens(passagens)
+                        cont = contar_passagens(usuarios)
                         contar_novamente = cont + len(passagens_para_registrar)  
                         print(f"As informações para a compra são: ID:{contar_novamente}, usuario:{userID}, rota:{rota_no_BD['trecho']}")
                         # Apesar da passagem ser criada aqui ela ainda não foi salva em arquivo, 
