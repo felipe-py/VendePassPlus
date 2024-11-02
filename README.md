@@ -10,6 +10,8 @@ Nesta aplicação, um cliente que deseja realizar a compra de uma passagem terá
 
 As funcionalidades devem estar em funcionamneto sem a necessidade de um servidor central para gerenciamento dos dados e operações das três empresas. Isso retira a dependência total que teríamos caso o servidor central estivesse em operação.
 
+Para mais informações sobre o projeto VendePass, acesse: <li><a href="https://github.com/felipe-py/VendePass">VendePass Repositório</a></li>
+
 </div>
 </div>
 
@@ -24,7 +26,7 @@ As funcionalidades devem estar em funcionamneto sem a necessidade de um servidor
 <div id="sumario">
 	<ul>
         <li><a href="#arquitetura"> Arquitetura da Solução </a></li>
-        <li><a href="protocolo"> Protocolo de Comunicação </a></li>
+        <li><a href="#protocolo"> Protocolo de Comunicação </a></li>
         <li><a href="#roteamento"> Roteamento </a></li>
         <li><a href="#concorrencia"> Concorrência Distribuída</a></li>
         <li><a href="#confiabilidade"> Confiabilidade da Solução </a></li>
@@ -129,7 +131,13 @@ Por se utilizar de características de controle temporais, em caso de ocorrênci
 <h2> Confiabilidade da Solução </h2>
 <div align="justify">
 
+Nos tópicos que envolvem a confiabilidade da solução, podemos analisar de maneira mais abrangente aqueles que envolvem os processos críticos de compra e cancelamento de uma passagem.
 
+Em ambos os casos o tratamento para uma situação de queda de um servidor é semelhante, caso esta situação venha a ocorrer o processo que esta ocorrendo no momento é cancelado. Por tanto, o cliente não conseguirá finalizar o seu carrinho de compras se nele estiver contida a passagem de um servidor em falha.
+
+O memso ocorre para o processo de cancelamento, com relação a queda de um servidor antes do momentro de conexão inical do cliente, o servidor em falha não estrá disponível para login.
+
+A concorrência distribuída pode não funcionar adequadamente caso a queda de um servidor aconteça, como temos um processo temporal cíclioco ocorrendo, existem chances de falha devido a não ocorrência de respostas pelo servidor falho.
 
 </div>
 </div>
@@ -149,7 +157,7 @@ Para tratamento da concorrência distribuída, um ponto de extrema importância 
 <h2> Utilização do Docker </h2>
 <div align="justify">
 
-[EM TESTES]
+[EM CONSTRUÇÃO]
 
 </div>
 </div>
