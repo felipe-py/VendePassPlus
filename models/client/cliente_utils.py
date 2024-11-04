@@ -1,12 +1,16 @@
 import socket
 import json
-
+import time
 
 #Função para criar um socket e iniciar a conexão com o servidor usando o TCP/IP4.
 def conectar(HOST, PORT):
     s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s1.connect((HOST, PORT))
     return s1
+
+def conectar_serv(HOST, PORT):
+    conectar(HOST, PORT)
+    time.sleep(3)
 
 #Função para fechar a conexão criada pelo socket.
 def desconectar(s1):
@@ -59,7 +63,7 @@ def login(s1):
             return id
         else:
             print("Falha na autenticação.")
-            return None
+            return f"0"
     return None
 
 #Essa função solicita uma lista de rotas com assentos disponíveis para o servidor, e depois mostra os resultados ao
@@ -74,35 +78,35 @@ def mostrar_rotas(s1):
 def comprar_passagem(user, s1, mensagem):
     resposta = enviar_dados(s1, 3, mensagem)
 
-    while (resposta != 'Compra realizada' and resposta != 'Acabaram as vagas') :
+    if (resposta != 'Compra realizada' and resposta != 'Acabaram as vagas') :
         espacos()
         print("Os seguintes trechos não tem mais vagas disponíveis:\n")
         for elemento in resposta:
             # print(f"Trecho: {elemento['rota']}") # Em caso de retornar passagem
             print(f"Trecho: {elemento['trecho']}") # Em caso de retornar rota
 
-        seguir = input("\nAinda deseja seguir com a compra?[y/N]\n: ")
-        if seguir.lower() == 's' or seguir.lower() == 'y':
-            for i in resposta:
-                if i['ID'] in rotas_a_serem_compradas:
-                    j = i['ID']
-                    rotas_a_serem_compradas.remove(j)
-            mensagem = {
-                'cliente_id': user,
-                'rotas_a_serem_compradas': rotas_a_serem_compradas
-            }
-            resposta = enviar_dados(s1, 3, mensagem)
-        elif seguir.lower() == 'n':
-            espacos()
-            print("A compra não foi realizada.")
-            break
+        # seguir = input("\nAinda deseja seguir com a compra?[y/N]\n: ")
+        # if seguir.lower() == 's' or seguir.lower() == 'y':
+        #     for i in resposta:
+        #         if i['ID'] in rotas_a_serem_compradas:
+        #             j = i['ID']
+        #             rotas_a_serem_compradas.remove(j)
+        #     mensagem = {
+        #         'cliente_id': user,
+        #         'rotas_a_serem_compradas': rotas_a_serem_compradas
+        #     }
+        #     resposta = enviar_dados(s1, 3, mensagem)
+        # elif seguir.lower() == 'n':
+        #     espacos()
+        #     print("A compra não foi realizada.")
+        #     break
 
-    if resposta == 'Compra realizada':
-        espacos()
-        print("\nCompra realizada com sucesso.")
-    elif resposta == 'Acabaram as vagas':
-        espacos()
-        print("\nAs vagas acabaram.")
+    # if resposta == 'Compra realizada':
+    #     espacos()
+    #     print("\nCompra realizada com sucesso.")
+    # elif resposta == 'Acabaram as vagas':
+    #     espacos()
+    #     print("\nAs vagas acabaram.")
 
 def mostrar_passagens(s1, user):
     mensagem = {'cliente_id': user}
@@ -120,6 +124,12 @@ def cancelar_compra(s1, passagemID, user):
     resposta = enviar_dados(s1, 5, mensagem)
     print(f"{resposta}\n")
     espacos()
+
+def verificar_sobras(s1, rota):
+    mensagem = {'rotaID':rota}
+    resposta = enviar_dados(s1, 6, mensagem)
+    print(f"{resposta}\n")
+    return resposta
 
 #Print de um separador.
 def espacos():

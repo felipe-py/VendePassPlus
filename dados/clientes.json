@@ -4,304 +4,137 @@
         "senha": "22",
         "passagens": [
             {
-                "id_passagem": 6,
-                "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 7,
-                "cliente_id": "1",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 8,
-                "cliente_id": "1",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": 1
-            },
-            {
                 "id_passagem": 9,
                 "cliente_id": "1",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": 1
+                "rota": "Salvador -> Recife",
+                "estaCancelado": 1,
+                "servidor": "A"
             },
             {
                 "id_passagem": 10,
                 "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "rota": "Teresina -> Manaus",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
                 "id_passagem": 11,
                 "cliente_id": "1",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": 1
+                "rota": "Manaus -> Rio de Janeiro",
+                "estaCancelado": 1,
+                "servidor": "C"
+            },
+            {
+                "id_passagem": 12,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
+                "estaCancelado": 1,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 13,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> Recife",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
                 "id_passagem": 14,
                 "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "rota": "S\u00e3o Paulo -> Manaus",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
                 "id_passagem": 15,
                 "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
                 "id_passagem": 16,
                 "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "rota": "Salvador -> S\u00e3o Paulo",
+                "estaCancelado": 1,
+                "servidor": "A"
             },
             {
                 "id_passagem": 17,
                 "cliente_id": "1",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
+                "rota": "Teresina -> Belo Horizonte",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
                 "id_passagem": 18,
                 "cliente_id": "1",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": 1
+                "rota": "S\u00e3o Paulo -> Rio de Janeiro",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
-                "id_passagem": 19,
+                "id_passagem": 21,
                 "cliente_id": "1",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 20,
-                "cliente_id": "1",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
+                "rota": "S\u00e3o Paulo -> Teresina",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
                 "id_passagem": 22,
                 "cliente_id": "1",
+                "rota": "Salvador -> Teresina",
+                "estaCancelado": 1,
+                "servidor": "A"
+            },
+            {
+                "id_passagem": 23,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> Recife",
+                "estaCancelado": 1,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 24,
+                "cliente_id": "1",
                 "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "estaCancelado": 1,
+                "servidor": "A"
             },
             {
                 "id_passagem": 25,
                 "cliente_id": "1",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": 1
+                "rota": "Rio de Janeiro -> Salvador",
+                "estaCancelado": 1,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 26,
+                "cliente_id": "1",
+                "rota": "Salvador -> Recife",
+                "estaCancelado": 1,
+                "servidor": "A"
             },
             {
                 "id_passagem": 27,
                 "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "rota": "Curitiba -> S\u00e3o Paulo",
+                "estaCancelado": false,
+                "servidor": "C"
             },
             {
                 "id_passagem": 28,
                 "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "rota": "Salvador -> Curitiba",
+                "estaCancelado": 1,
+                "servidor": "A"
             },
             {
                 "id_passagem": 29,
                 "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 30,
-                "cliente_id": "1",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 31,
-                "cliente_id": "1",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 32,
-                "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 32,
-                "cliente_id": "1",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 52,
-                "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 54,
-                "cliente_id": "1",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 55,
-                "cliente_id": "1",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 56,
-                "cliente_id": "1",
-                "rota": "Manaus -> Curitiba",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 57,
-                "cliente_id": "1",
-                "rota": "Manaus -> Curitiba",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 58,
-                "cliente_id": "1",
-                "rota": "Manaus -> Belo Horizonte",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 59,
-                "cliente_id": "1",
-                "rota": "Manaus -> Belo Horizonte",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 60,
-                "cliente_id": "1",
-                "rota": "Rio de Janeiro -> Recife",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 61,
-                "cliente_id": "1",
-                "rota": "Belo Horizonte -> Natal",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 1,
-                "cliente_id": "1",
-                "rota": "Natal -> Curitiba",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 1,
-                "cliente_id": "1",
-                "rota": "Teresina -> Manaus",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 1,
-                "cliente_id": "1",
-                "rota": "Natal -> Manaus",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 1,
-                "cliente_id": "1",
-                "rota": "Manaus -> Salvador",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 1,
-                "cliente_id": "1",
-                "rota": "Manaus -> Rio de Janeiro",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 1,
-                "cliente_id": "1",
-                "rota": "Belo Horizonte -> Natal",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 1,
-                "cliente_id": "1",
-                "rota": "Manaus -> S\u00e3o Paulo",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 66,
-                "cliente_id": "1",
-                "rota": "Curitiba -> Rio de Janeiro",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 67,
-                "cliente_id": "1",
-                "rota": "Curitiba -> S\u00e3o Paulo",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 68,
-                "cliente_id": "1",
-                "rota": "Fortaleza -> Recife",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 69,
-                "cliente_id": "1",
-                "rota": "Recife -> Manaus",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 70,
-                "cliente_id": "1",
-                "rota": "Fortaleza -> Teresina",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 71,
-                "cliente_id": "1",
-                "rota": "Rio de Janeiro -> Salvador",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 72,
-                "cliente_id": "1",
-                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 73,
-                "cliente_id": "1",
-                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 74,
-                "cliente_id": "1",
-                "rota": "Teresina -> Curitiba",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 75,
-                "cliente_id": "1",
-                "rota": "Teresina -> Salvador",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 76,
-                "cliente_id": "1",
-                "rota": "Salvador -> Manaus",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 77,
-                "cliente_id": "1",
-                "rota": "Belo Horizonte -> S\u00e3o Paulo",
-                "estaCancelado": 1
+                "rota": "Rio de Janeiro -> Fortaleza",
+                "estaCancelado": 1,
+                "servidor": "B"
             }
         ]
     },
@@ -310,100 +143,18 @@
         "senha": "44",
         "passagens": [
             {
-                "id_passagem": 12,
+                "id_passagem": 19,
                 "cliente_id": "2",
                 "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "estaCancelado": false,
+                "servidor": "A"
             },
             {
-                "id_passagem": 13,
+                "id_passagem": 20,
                 "cliente_id": "2",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 21,
-                "cliente_id": "2",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 23,
-                "cliente_id": "2",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 24,
-                "cliente_id": "2",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 26,
-                "cliente_id": "2",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 50,
-                "cliente_id": "2",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 51,
-                "cliente_id": "2",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 53,
-                "cliente_id": "2",
-                "rota": "Salvador -> Recife",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 83,
-                "cliente_id": "2",
-                "rota": "Curitiba -> Belo Horizonte",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 84,
-                "cliente_id": "2",
-                "rota": "Manaus -> Teresina",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 85,
-                "cliente_id": "2",
-                "rota": "Manaus -> Belo Horizonte",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 86,
-                "cliente_id": "2",
-                "rota": "Manaus -> Belo Horizonte",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 87,
-                "cliente_id": "2",
-                "rota": "Manaus -> Rio de Janeiro",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 88,
-                "cliente_id": "2",
-                "rota": "Manaus -> Natal",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 90,
-                "cliente_id": "2",
-                "rota": "Fortaleza -> S\u00e3o Paulo",
-                "estaCancelado": false
+                "rota": "S\u00e3o Paulo -> Teresina",
+                "estaCancelado": false,
+                "servidor": "B"
             }
         ]
     },
@@ -412,172 +163,67 @@
         "senha": "66",
         "passagens": [
             {
-                "id_passagem": 32,
+                "id_passagem": 1,
+                "cliente_id": "3",
+                "rota": "Natal -> Belo Horizonte",
+                "estaCancelado": 1,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 3,
                 "cliente_id": "3",
                 "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "estaCancelado": 1,
+                "servidor": "A"
             },
             {
-                "id_passagem": 33,
+                "id_passagem": 4,
                 "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
+                "rota": "Teresina -> Manaus",
+                "estaCancelado": 1,
+                "servidor": "B"
             },
             {
-                "id_passagem": 34,
+                "id_passagem": 5,
                 "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
+                "rota": "Manaus -> Belo Horizonte",
+                "estaCancelado": 1,
+                "servidor": "C"
             },
             {
-                "id_passagem": 34,
-                "cliente_id": "3",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 36,
-                "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 36,
-                "cliente_id": "3",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 38,
-                "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 38,
-                "cliente_id": "3",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 40,
-                "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 41,
-                "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 42,
-                "cliente_id": "3",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 43,
+                "id_passagem": 6,
                 "cliente_id": "3",
                 "rota": "Salvador -> Recife",
-                "estaCancelado": false
+                "estaCancelado": 1,
+                "servidor": "A"
             },
             {
-                "id_passagem": 44,
-                "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 45,
-                "cliente_id": "3",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 46,
-                "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 47,
-                "cliente_id": "3",
-                "rota": "Recife -> Fortaleza",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 48,
-                "cliente_id": "3",
-                "rota": "Fortaleza -> Natal",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 49,
-                "cliente_id": "3",
-                "rota": "Natal -> Teresina",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 78,
-                "cliente_id": "3",
-                "rota": "Curitiba -> Fortaleza",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 79,
-                "cliente_id": "3",
-                "rota": "Rio de Janeiro -> Curitiba",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 80,
-                "cliente_id": "3",
-                "rota": "Belo Horizonte -> Manaus",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 81,
-                "cliente_id": "3",
-                "rota": "Curitiba -> Fortaleza",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 82,
-                "cliente_id": "3",
-                "rota": "Manaus -> Curitiba",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 89,
-                "cliente_id": "3",
-                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
-                "estaCancelado": 1
-            },
-            {
-                "id_passagem": 91,
+                "id_passagem": 7,
                 "cliente_id": "3",
                 "rota": "Salvador -> Recife",
-                "estaCancelado": 1
+                "estaCancelado": false,
+                "servidor": "A"
             },
             {
-                "id_passagem": 92,
+                "id_passagem": 8,
                 "cliente_id": "3",
-                "rota": "Natal -> Curitiba",
-                "estaCancelado": false
-            },
-            {
-                "id_passagem": 93,
-                "cliente_id": "3",
-                "rota": "Manaus -> S\u00e3o Paulo",
-                "estaCancelado": 1
+                "rota": "Manaus -> Rio de Janeiro",
+                "estaCancelado": false,
+                "servidor": "C"
             }
         ]
     },
     {
         "id": "4",
         "senha": "88",
-        "passagens": []
+        "passagens": [
+            {
+                "id_passagem": 2,
+                "cliente_id": "4",
+                "rota": "Natal -> S\u00e3o Paulo",
+                "estaCancelado": 1,
+                "servidor": "B"
+            }
+        ]
     }
 ]

@@ -5,7 +5,108 @@ import json
 import os
 import time
 from pathlib import Path
+# import schedule
 
+
+
+# Inicialização do relógio lógico e variáveis de controle para Ricart-Agrawala
+relogio_logico = 0
+ok_count = 0
+fila_pedidos = []
+conexoes_servidores = {}  # Servidores conectados com (IP, porta)
+
+# Função para incrementar o relógio lógico de Lamport
+def incrementar_relogio():
+    global relogio_logico
+    with mutex:
+        relogio_logico += 1
+    return relogio_logico
+
+# Função para atualizar o relógio lógico com base em um valor recebido
+def atualizar_relogio(received_clock):
+    global relogio_logico
+    with mutex:
+        relogio_logico = max(relogio_logico, received_clock) + 1
+
+# Função para enviar uma resposta fracionada ao cliente
+def enviar_resposta(conexao_servidor, resposta):
+    resposta_json = json.dumps(resposta)
+    for i in range(0, len(resposta_json), 1024):
+        conexao_servidor.sendall(resposta_json[i:i + 1024].encode())
+
+# Função para enviar pedidos de acesso e gerenciar OKs recebidos
+def pedir_acesso(id_servidor):
+    global ok_count
+    ok_count = 0  # Reset contador de OKs
+    meu_relogio = incrementar_relogio()
+    mensagem = {
+        "operacao": "pedido_acesso",
+        "id_servidor": id_servidor,
+        "relogio": meu_relogio
+    }
+
+    # Envia o pedido a todos os servidores conectados
+    for (ip, porta), conexao in conexoes_servidores.items():
+        try:
+            conexao.sendall(json.dumps(mensagem).encode())
+        except Exception as e:
+            print(f"Erro ao enviar pedido para {ip}:{porta} - {e}")
+
+    # Aguardar o recebimento de todos os OKs
+    while ok_count < len(conexoes_servidores):
+        time.sleep(0.1)
+
+# Função para liberar acesso após sair da seção crítica
+def liberar_acesso(id_servidor):
+    mensagem = {
+        "operacao": "liberar_acesso",
+        "id_servidor": id_servidor
+    }
+    for (ip, porta), conexao in conexoes_servidores.items():
+        try:
+            conexao.sendall(json.dumps(mensagem).encode())
+        except Exception as e:
+            print(f"Erro ao enviar liberação para {ip}:{porta} - {e}")
+
+# Função para processar mensagens de pedidos de acesso e liberação de acesso
+def processar_mensagem(mensagem, id_servidor):
+    global ok_count
+    operacao = mensagem["operacao"]
+
+    if operacao == "pedido_acesso":
+        # Atualiza o relógio lógico e ordena a fila de pedidos
+        atualizar_relogio(mensagem["relogio"])
+        fila_pedidos.append(mensagem)
+        fila_pedidos.sort(key=lambda x: (x["relogio"], x["id_servidor"]))
+
+        # Envia OK para o servidor se este tem prioridade
+        if (relogio_logico, id_servidor) < (mensagem["relogio"], mensagem["id_servidor"]):
+            enviar_ok(mensagem["id_servidor"])
+
+    elif operacao == "liberar_acesso":
+        # Remove o pedido da fila após liberação
+        fila_pedidos[:] = [req for req in fila_pedidos if req["id_servidor"] != mensagem["id_servidor"]]
+        if fila_pedidos:
+            # Envia OK ao próximo servidor na fila
+            proximo = fila_pedidos.pop(0)
+            enviar_ok(proximo["id_servidor"])
+
+    elif operacao == "resposta_ok":
+        # Conta cada OK recebido
+        ok_count += 1
+
+# Função para enviar confirmação de OK ao servidor
+def enviar_ok(id_destino):
+    mensagem = {"operacao": "resposta_ok"}
+    conexao = conexoes_servidores.get(id_destino)
+    if conexao:
+        ip, porta = conexao
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.connect((ip, porta))
+                s.sendall(json.dumps(mensagem).encode())
+        except Exception as e:
+            print(f"Erro ao enviar OK para {id_destino}: {e}")
 # Criado o MUTEX que irá controlar as operações em zonas críticas (na prática as alterações no BD).
 mutex = threading.Lock()
 
@@ -28,11 +129,11 @@ def conectar_com_servidor(HOST, PORT, tempo):
             s1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s1.connect((HOST, PORT))
             print(f"conectado a {HOST} na porta {PORT}")
-            time.sleep(30)
+            time.sleep(tempo)
             return
         except:
             print(f"Erro ao conectar ao servidor")
-            time.sleep(30)
+            time.sleep(tempo)
 
 # Função para carregar dados de forma genérica
 def carregar_dados(arquivo):
@@ -106,7 +207,7 @@ def contar_passagens(usuarios):
 
 # Essa função executa a compra de uma passagem, detalhe que o processo de compra envolve mais do que só essa função, as etapas
 # desse processo são determinadas no cliente.
-def comprar_passagem(userID, rotas_a_serem_compradas , rotas, passagens, usuarios):
+def comprar_passagem(userID, rotas_a_serem_compradas , rotas, passagens, usuarios, servidor):
     # Primeiro são criados os vetores que irão guardar as rotas sem vagas e as passagens criadas,
     # porém ainda não escritas no BD
     rotas_sem_vagas = []
@@ -131,7 +232,8 @@ def comprar_passagem(userID, rotas_a_serem_compradas , rotas, passagens, usuario
                             "id_passagem": contar_novamente, 
                             "cliente_id": userID,
                             "rota": rota_no_BD['trecho'],
-                            "estaCancelado": False
+                            "estaCancelado": False,
+                            "servidor": servidor
                         }
                         print(f"Foi criada a passagem {nova_passagem['id_passagem']}.")
                         passagens_para_registrar.append(nova_passagem)
@@ -195,30 +297,35 @@ def buscar_passagens_de_usuario(userID, usuarios):
 # Função que cancela uma passagem, para todos os propósitos a requerida passagem não existe mais, contudo
 # o registro dela permanece no BD das passagens e nas passagens do usuário no BD dos clientes, porém marcado
 # como passagem cancelada.
-def cancelar_passagem(passagemID, userID, passagens, usuarios):
+def cancelar_passagem(passagemID, userID, passagens, usuarios, servidor):
+    print(f"\npassagemID: {passagemID} | userID: {userID} | passagens: {passagens} | usuarios: {usuarios} | servidor: {servidor}\n")
     if int(passagemID) == 0:
         print("cancelamento cancelado")
         return "Voltando para o menu"
-    for passagem in passagens:
-        if passagem['id_passagem'] == int(passagemID):
-            print("A passagem foi encontrada.")
-            if passagem['cliente_id'] != userID:
-                print("Passagem de outro usuario")
-                return f"Essa passagem pertence ao usuario {passagem['cliente_id']}."
-            if passagem['estaCancelado'] != 1:
-                print(f"o cliente na passagem eh: {passagem['cliente_id']}\no userID eh: {userID}")
-                passagem['estaCancelado'] = 1
-                for user in usuarios:
-                    if user['id'] == userID:
-                        for p in user['passagens']:
-                            if int(p['id_passagem']) == int(passagemID):
-                                p['estaCancelado'] = 1
-                with mutex:
-                    atualizar_passagens(passagens)
-                    atualizar_usuarios(usuarios)
-                return "Passagem cancelada com sucesso."
-            else:
-                return "A passagem ja foi cancelada"
+    for user in usuarios:
+        for passagem in user['passagens']:
+            if passagem['id_passagem'] == int(passagemID):
+                print("A passagem foi encontrada.")
+                if passagem['cliente_id'] != userID:
+                    print("Passagem de outro usuario")
+                    return f"Essa passagem pertence ao usuario {passagem['cliente_id']}."
+                if passagem['servidor'] != servidor:
+                    print("Essa passagem pertence a outro servidor")
+                    return
+                if passagem['estaCancelado'] != 1:
+                    print(f"o cliente na passagem eh: {passagem['cliente_id']}\no userID eh: {userID}")
+                    passagem['estaCancelado'] = 1
+                    for user in usuarios:
+                        if user['id'] == userID:
+                            for p in user['passagens']:
+                                if int(p['id_passagem']) == int(passagemID):
+                                    p['estaCancelado'] = 1
+                    with mutex:
+                        atualizar_passagens(passagens)
+                        atualizar_usuarios(usuarios)
+                    return "Passagem cancelada com sucesso."
+                else:
+                    return "A passagem ja foi cancelada"
     return "Passagem não encontrada."
 
 # Função para mostrar as rotas disponíveis para compra a partir da solicitação do cliente
@@ -232,48 +339,53 @@ def mostrar_rotas(rotas):
         print(f"{r['trecho']}")
     return rotas_disponiveis
 
+def verificar_quantidade(rotas, rotaID):
+    for rota in rotas:
+        if rotaID == rota['ID']:
+            return rota['assentos_disponiveis']
+    return 0
+
 # Essa função interpreta a solicitação feita para o servidor, ela separa o 'opcode' da mensagem, seleciona
 # a função a ser executada e envia os argumentos para sua execução.
-def tratar_cliente(conexao_servidor, usuarios, passagens, rotas):
+def tratar_cliente(conexao_servidor, usuarios, passagens, rotas, id_servidor):
     try:
         while True:
             mensagem = conexao_servidor.recv(1024).decode()
             if not mensagem:
                 break
-            print(f"Mensagem recebida: {mensagem}")
             dados = json.loads(mensagem)
             opcode = dados['opcode']
             conteudo = dados['dados']
-            
-            #Atualizando o arquivo que pode ser alterado por outros servidores.
+
+            # Atualiza o arquivo que pode ser alterado por outros servidores.
             usuarios = carregar_usuarios()
 
-            print(f"os dados enviados foram {conteudo}")
-            if opcode == 1: 
+            # Pede acesso à seção crítica para operações no BD
+            pedir_acesso(id_servidor)
+
+            # Processa a solicitação baseada no opcode
+            print(f"Processando a operação {opcode} com dados: {conteudo}")
+            if opcode == 1:
                 resultado = logar(conteudo['id'], conteudo['senha'], usuarios)
-                print(f"A resposta enviada ao cliente foi: {resultado}.")
             elif opcode == 2:
                 resultado = mostrar_rotas(rotas)
-                print(f"A resposta enviada ao cliente foi: {resultado}.")
             elif opcode == 3:
-                resultado = comprar_passagem(conteudo['cliente_id'], conteudo['rotas_a_serem_compradas'], rotas, passagens, usuarios)
-                print(f"A resposta enviada ao cliente foi: {resultado}.")
+                resultado = comprar_passagem(conteudo['cliente_id'], conteudo['rotas_a_serem_compradas'], rotas, passagens, usuarios, id_servidor)
             elif opcode == 4:
                 resultado = buscar_passagens_de_usuario(conteudo['cliente_id'], usuarios)
-                print(f"A resposta enviada ao cliente foi: {resultado}.")
             elif opcode == 5:
-                resultado = cancelar_passagem(conteudo['id_passagem'], conteudo['userID'], passagens, usuarios)
-                print(f"A resposta enviada ao cliente foi: {resultado}.")
+                resultado = cancelar_passagem(conteudo['id_passagem'], conteudo['userID'], passagens, usuarios, id_servidor)
+            elif opcode == 6:
+                resultado = verificar_quantidade(rotas, conteudo['rotaID'])
             else:
                 resultado = "Operação inválida"
-                print(f"A resposta enviada ao cliente foi: {resultado}.")
-
-            # conexao_servidor.sendall(json.dumps(resultado).encode())
             enviar_resposta(conexao_servidor, resultado)
-            print("Mensagem enviada com sucesso.")
+
+            # Libera o acesso após a operação na seção crítica
+            liberar_acesso(id_servidor)
+
     except Exception as e:
         print(f"Erro ao tratar cliente: {e}")
     finally:
         print("Conexão encerrada.")
         conexao_servidor.close()
-

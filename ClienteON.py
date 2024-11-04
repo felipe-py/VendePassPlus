@@ -2,12 +2,13 @@ import socket
 import json
 from models.client.cliente_utils import * 
 import time
-
+import sys
 # O host antigo era 'servidor_container'
 #HOST = '0.0.0.0'
 #PORT = 65434
 
 def main():
+    user = '0'
     while True:
         try:
             # servidor = input("Em qual servidor gostaria de se conectar?\n")
@@ -35,15 +36,27 @@ def main():
 
             try:
                 s1 = conectar(HOST1, PORT1)
+                print(s1)
+                print("Sucesso ao se conectar com o Server A\n")
+                server_A_ligado = True
             except:
+                server_A_ligado = False
                 pass
             try:
                 s2 = conectar(HOST2, PORT2)
+                print(s2)
+                print("Sucesso ao se conectar com o Server B\n")
+                server_B_ligado = True
             except:
+                server_B_ligado = False
                 pass
             try:
                 s3 = conectar(HOST3, PORT3)
+                print(s3)
+                print("Sucesso ao se conectar com o Server C\n")
+                server_C_ligado = True
             except:
+                server_C_ligado = False
                 pass
             espacos()
             # print("Conectado.")
@@ -54,7 +67,6 @@ def main():
             time.sleep(1)
 
     # while True:
-        user = '0'
         while user == '0':
             try:
                 user = login(s1)
@@ -63,12 +75,36 @@ def main():
                     user = login(s2)
                 except:
                     user = login(s3)
-
         if user == "sair":
             break
+
         elif user:
             while True:
                 operacao = menu(user)
+                try:
+                    s1 = conectar(HOST1, PORT1)
+                    print(s1)
+                    print("Sucesso ao se conectar com o Server A\n")
+                    server_A_ligado = True
+                except:
+                    server_A_ligado = False
+                    pass
+                try:
+                    s2 = conectar(HOST2, PORT2)
+                    print(s2)
+                    print("Sucesso ao se conectar com o Server B\n")
+                    server_B_ligado = True
+                except:
+                    server_B_ligado = False
+                    pass
+                try:
+                    s3 = conectar(HOST3, PORT3)
+                    print(s3)
+                    print("Sucesso ao se conectar com o Server C\n")
+                    server_C_ligado = True
+                except:
+                    server_C_ligado = False
+                    pass
                 if operacao != '3':
                     if operacao == '1':
                         try:
@@ -114,7 +150,7 @@ def main():
                         mensagem_server_1 = {
                             'cliente_id': user,
                             #'rotaID': rotaID
-                            'rotas_a_serem_compradas': passagens_do_servidor_1
+                            'rotas_a_serem_compradas': passagens_do_servidor_1,
                         }
                         mensagem_server_2 = {
                             'cliente_id': user,
@@ -126,18 +162,61 @@ def main():
                             #'rotaID': rotaID
                             'rotas_a_serem_compradas': passagens_do_servidor_3
                         }
+                        disponibilidade_em_1 = True
+                        disponibilidade_em_2 = True
+                        disponibilidade_em_3 = True
+
+                        continuar = True
                         try:
-                            comprar_passagem(user, s1, mensagem_server_1)
+                            for rota in passagens_do_servidor_1:
+                                resposta = verificar_sobras(s1, rota)
+                                print(f"resposta: {resposta}\n")
+                                if resposta < 1:
+                                    disponibilidade_em_1 = False
+                                print(f"disponibilidade_em_1: {disponibilidade_em_1}\n")
                         except:
                             pass
                         try:
-                            comprar_passagem(user, s2, mensagem_server_2)
+                            for rota in passagens_do_servidor_2:
+                                resposta = verificar_sobras(s2, rota)
+                                print(f"resposta: {resposta}\n")
+                                if resposta < 1:
+                                    disponibilidade_em_2 = False
                         except:
                             pass
                         try:
-                            comprar_passagem(user, s3, mensagem_server_3)
+                            for rota in passagens_do_servidor_3:
+                                resposta = verificar_sobras(s3, rota)
+                                print(f"resposta: {resposta}\n")
+                                if resposta < 1:
+                                    disponibilidade_em_3 = False
                         except:
                             pass
+                        
+
+                        print(f"disponibilidade_em_1: {disponibilidade_em_1} | disponibilidade_em_2: {disponibilidade_em_2} | disponibilidade_em_3: {disponibilidade_em_3}\n")
+                        if (disponibilidade_em_1==False) or (disponibilidade_em_2==False) or (disponibilidade_em_3==False):
+                            continuar = False
+                            print(f"continuar: {continuar}\n")
+                            break
+
+                        print(f"continuar: {continuar}\n")
+                        print(f"Continuar : {continuar}")
+                        if server_A_ligado and continuar:
+                            try:
+                                comprar_passagem(user, s1, mensagem_server_1)
+                            except:
+                                pass
+                        if server_B_ligado and continuar:
+                            try:
+                                comprar_passagem(user, s2, mensagem_server_2)
+                            except:
+                                pass
+                        if server_C_ligado and continuar:
+                            try:
+                                comprar_passagem(user, s3, mensagem_server_3)
+                            except:
+                                pass
                     if operacao == '2':
                         print(f"Passagens Compradas por {user}:\n")
                         try:
@@ -151,16 +230,18 @@ def main():
                         if passagem_a_ser_cancelada != '0':
                             try:
                                 cancelar_compra(s1, passagem_a_ser_cancelada, user)
-                            except:
-                                pass
-                            try:
                                 cancelar_compra(s2, passagem_a_ser_cancelada, user)
-                            except:
-                                pass
-                            try:
                                 cancelar_compra(s3, passagem_a_ser_cancelada, user)
                             except:
                                 pass
+                            # try:
+                            #     cancelar_compra(s2, passagem_a_ser_cancelada, user)
+                            # except:
+                            #     pass
+                            # try:
+                            #     cancelar_compra(s3, passagem_a_ser_cancelada, user)
+                            # except:
+                            #     pass
                                 # try:
                                 #     cancelar_compra(s2, passagem_a_ser_cancelada, user)
                                 # except:
@@ -186,12 +267,19 @@ def main():
                         except:
                             logout(s3)
                     break
-                if operacao == '3':
-                    break
+                
                 else:
-                    print("Credenciais incorretas, tente novamente.")
-                    espacos()
-
+                    sys.exit()
+                    # print("Credenciais incorretas, tente novamente.")
+                    # try:
+                    #     user = login(s1)
+                    # except:
+                    #     try:
+                    #         user = login(s2)
+                    #     except:
+                    #         user = login(s3)
+                    # espacos()
+                    
     # user = login(s1)
     #
     # if user:

@@ -9,7 +9,7 @@
     {
         "ID": "2",
         "trecho": "Salvador -> Fortaleza",
-        "assentos_disponiveis": 20,
+        "assentos_disponiveis": 0,
         "cidadeSaida": "Salvador",
         "cidadeChegada": "Fortaleza"
     },

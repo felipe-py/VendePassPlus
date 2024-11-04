@@ -31,15 +31,43 @@ def main():
 
     print(f"Servidor conectado em {IP_SERVIDOR} na porta {PORTA_SERVIDOR}...")
 
-    thread_B = threading.Thread(target=conectar_com_servidor, args=(IP_SERVIDOR_B, PORTA_SERVIDOR_B, 5))
-    thread_A = threading.Thread(target=conectar_com_servidor, args=(IP_SERVIDOR_A, PORTA_SERVIDOR_A, 5))
-    thread_B.start()
-    thread_A.start()
+    # thread_B = threading.Thread(target=conectar_com_servidor, args=(IP_SERVIDOR_B, PORTA_SERVIDOR_B, 5))
+    # thread_A = threading.Thread(target=conectar_com_servidor, args=(IP_SERVIDOR_A, PORTA_SERVIDOR_A, 5))
+    # thread_B.start()
+    # thread_A.start()
+    servidor_B = threading.Thread(target=conectar, args=(IP_SERVIDOR_B, PORTA_SERVIDOR_B))
+    servidor_A = threading.Thread(target=conectar, args=(IP_SERVIDOR_A, PORTA_SERVIDOR_A))
+    servidor_B.start()
+    servidor_A.start()
 
     while True:
+        try:
+            print("tentando conectar em A\n")
+            # servidor_A = conectar(IP_SERVIDOR_A, PORTA_SERVIDOR_A)
+            # time.sleep(0.1)
+            if (servidor_A.is_alive())==False:
+                servidor_A = threading.Thread(target=conectar, args=(IP_SERVIDOR_A, PORTA_SERVIDOR_A))
+                servidor_A.start()
+            # servidor_A.join()
+            print("conectado em A\n")
+        except (ConnectionError, socket.error) as e: 
+            print(f"Falha ao conectar em A: {e}")
+            pass
+
+        try:
+            print("tentando conectar em B\n")
+            # time.sleep(0.1)
+            if (servidor_B.is_alive())==False:
+                servidor_B = threading.Thread(target=conectar, args=(IP_SERVIDOR_B, PORTA_SERVIDOR_B))
+                servidor_B.start()
+            # servidor_B = conectar(IP_SERVIDOR_B, PORTA_SERVIDOR_B)
+            print("conectado em C\n")
+        except:
+            pass
+        print("Escutando.\n")
         conexao_servidor, endereco_cliente = servidor.accept()
         print(f"Nova conexão de {endereco_cliente}")
-        cliente_thread = threading.Thread(target=tratar_cliente, args=(conexao_servidor, usuarios, passagens, rotas))
+        cliente_thread = threading.Thread(target=tratar_cliente, args=(conexao_servidor, usuarios, passagens, rotas, 'B'))
         cliente_thread.start()
 
 main()
