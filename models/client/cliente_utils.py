@@ -71,7 +71,15 @@ def login(s1):
 def mostrar_rotas(s1):
     resposta = enviar_dados(s1, 2, {})
     for rota in resposta:
-        print(f"ID: {rota['ID']} | Trecho: {rota['trecho']}")
+        rota_id = int(rota['ID'])
+        if 1 <= rota_id <= 29: 
+            print(f"(COMP. A) => ID: {rota['ID']} | Trecho: {rota['trecho']} | Assentos Disponíveis: {rota['assentos_disponiveis']}")
+        
+        elif 30 <= rota_id <= 60: 
+            print(f"(COMP. B) => ID: {rota['ID']} | Trecho: {rota['trecho']} | Assentos Disponíveis: {rota['assentos_disponiveis']}")
+        
+        elif 61 <= rota_id <= 90: 
+            print(f"(COMP. C) => ID: {rota['ID']} | Trecho: {rota['trecho']} | Assentos Disponíveis: {rota['assentos_disponiveis']}")
 
 #Essa função realiza a compra de passagens, ela chama 'mostrar_rotas' para que o usuário possa ver as rotas disponíveis
 #antes de realizar a compra, o tratamento de solicitações improprias se dá no servidor.
