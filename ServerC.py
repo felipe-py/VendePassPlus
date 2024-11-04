@@ -1,4 +1,5 @@
 from models.service.server_utils import *
+from models.client.cliente_utils import *
 
 # Criado o MUTEX que irá controlar as operações em zonas críticas (na prática as alterações no BD).
 # mutex = threading.Lock()
