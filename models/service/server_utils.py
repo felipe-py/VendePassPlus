@@ -7,8 +7,6 @@ import time
 from pathlib import Path
 # import schedule
 
-
-
 # Inicialização do relógio lógico e variáveis de controle para Ricart-Agrawala
 relogio_logico = 0
 ok_count = 0
