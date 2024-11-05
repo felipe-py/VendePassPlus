@@ -155,7 +155,7 @@ A utilização do algoritmo de Ricart-Agrawala, apropriado para aplicações que
 
 Soluções podem ser aplicadas para contornar os problemas de latência causados pelo algoritmo, a utilização de buffering de mensagens pode ser usada para ordenamento correto das requisições e o uso de um timeout pode útil para evitar a perda de requisições quando multíplas delas são enviadas simultaneamente.
 
-Outo ponto importante é a implementação de um 'rollback', para situações em que um servidor caia durante operações. Isso é importante para que o cliente não perca por exemplo, as compras no carrinho durante uma operação de compra em que o servidor tenha caído.
+Outro ponto importante é a implementação de um 'rollback', para situações em que um servidor caia durante operações. Isso é importante para que o cliente não perca por exemplo, as compras no carrinho durante uma operação de compra em que o servidor tenha caído.
 
 </div>
 </div>
@@ -164,7 +164,21 @@ Outo ponto importante é a implementação de um 'rollback', para situações em
 <h2> Utilização do Docker </h2>
 <div align="justify">
 
-[EM CONSTRUÇÃO]
+* O primeiro comando (pra criar a network): 
+  
+   docker network create vende_pass_network
+
+* O comando para buildar um server(O Ponto no final é importante): 
+   docker build -t vende_pass_serverX -f Dockerfile_serverX  (só trocar o X pelo servidor). 
+
+* Para buildar o cliente: 
+   docker build -t vende_pass_cliente -f Dockerfile_cliente .
+
+* Para rodar o servidor: 
+   docker run --rm --name vende_pass_serverX --network vende_pass_network -p PORTA:PORTA vende_pass_serverX
+
+* Para rodar um cliente: 
+   docker run -it --rm --name cliente_container --network vende_pass_network vende_pass_cliente
 
 </div>
 </div>
