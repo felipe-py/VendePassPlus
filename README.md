@@ -40,39 +40,40 @@ Para mais informações sobre o projeto VendePass, acesse: <li><a href="https://
 <h2> Arquitetura da Solução </h2>
 <div align="justify">
 
-O diagrama que apresenta a arquitetura geral da solução pode ser visualizado na Figura 1, nele podem ser observadas a relaçao entre cliente, servidores e base de dados da aplicação.
+O diagrama que apresenta a arquitetura geral da solução pode ser visualizado na Figura 1, nele podem ser observadas a relação entre cliente, servidores e base de dados da aplicação.
 
 <p align="center">
   <img src="docs/diagrama_arquitetura.png" width = "500" />
 </p>
 <p align="center"><strong> Figura 1. Arquitetura Geral do Sistema </strong></p>
 
-O cliente inicialmente terá a opção de se conectar a qualquer um dos três servidores, o servidor ao qual ele se conectar se tornará de certa maneira o servidor central para ele.
+O cliente inicialmente terá a opção de se conectar a qualquer um dos três servidores, o servidor ao qual ele se conectar se tornará de certa maneira o servidor central para ele neste momento inicial das operações..
 
-Este servidor em que foi feita a conexão, poderá realizar qualquer tipo de consulta ou ação que envolva os outros dois servidores. Esta dinêmica desenvolve um ambiente totalmente compartilhado, em que não se faz necessário a necessidade e dependência de utilizarmos um servidor central.
+A partir do servidor conectado ele poderá realizar operações neste servidor, ou, ter acesso aos servidores parceiros e realizar sua compra. Importante salientar que ele só poderá realizar a conexão em servidores que estão ativos.
 
 Cada servidor terá a sua própria base de dados de forma independente, englobando as informações relacionadas as suas rotas e passagens que foram vendidas. Além disso os dados que envolvem a relação de clientes cadastrados é comum a todos os servidores.
 
 <h3> Conexão Cliente/Servidor </h3>
 
-Para realizar a comunicação entre o cliente e o servidor "central" para as operações que serão realizadas, é utilizado um sistema semelhante ao desenvolvido no projeto VendePass com a utilização de threads.
+De maneira geral, o cliente realizará as requisições e o servidor se torna responsável por processar estas requisições. A comunicação entre os dois agentes é feita através do protocolo http, que permite o envio dos dados de forma estrutura entre eles.
 
-Portanto, cada novo cliente conectado ao sistema será em tese uma nova thread ligada ao servidor em que foi solicitada a conexão.
+Para o controle e identificação destas requisições, foi utilizada a APIRest com a biblioteca Flask do Python. As requisições são construídas com os dados necessários para a sua execução e o servidor responde a partir do resultado deste processamento.
 
-<h3> Conexão entre Servidores </h3>
+Verificações são feitas para que o cliente acesse as informações dos servidores que estão em atividade, evitando problemas durante as execuções das requisições.
 
-Cada servidor possuirá seu IP e porta próprios para uso das conexões, ou seja, para que um servidor seja conectado a outro caso necessário, serão necessárias somente estas duas informações.
+<h3> Conexão entre servidores </h3>
 
-Com relação ao carregamento dos dados de rotas, passagens e usuários cadastrados, cada servidor fará de maneira independente e somente se for solicitado.
+A conexão entre servidores mantém a mesma lógica utilizada para a conexão entre cliente e servidor, isso ocorre por que o servidor principal ao qual o usuário escolhe inicialmente se torna de certa forma um cliente para os outros servidores.
 
-</div>
+Os recursos http são utilizados da mesma forma, assim como os requests utilizados pela API.
+
 </div>
 
 <div id="protocolo">
 <h2> Protocolo de Comunicação </h2>
 <div align="justify">
 
-[EM CONSTRUÇÃO (DEPENDENDO DE TESTES)]
+
 
 </div>
 </div>
@@ -114,15 +115,15 @@ Neste caso, o algoritmo foi utilizado para coordenar o acesso as passagens duran
 
 O processo de controle é iniciado na requisição, quando um servidor inicia o processo de compra é instaurada uma mensagem de requisição para os outros servidores. O processo funciona de forma temporal, um timestamp e um indicador de solicitação do acesso.
 
-O próximo passo é o tratamento dessa requisição, é feita a verificação da marca temporal para análisar se a requisição pode ser atendida de forma imediata ou se deve haver um retardamento da resposta. O processo que solicitou o recurso só terá acesso a ele quando houver permissão de todos os outros processos em execução.
+O próximo passo é o tratamento dessa requisição, é feita a verificação da marca temporal para analisar se a requisição pode ser atendida de forma imediata ou se deve haver um retardamento da resposta. O processo que solicitou o recurso só terá acesso a ele quando houver permissão de todos os outros processos em execução.
 
-Com a permissão concedida o processo poderá entrar na região crítica de operação para compra da passagem, com a passagem comprada ela não estará disponível para compra no abnco de daods, finalizando o tratamento da requisição.
+Com a permissão concedida o processo poderá entrar na região crítica de operação para compra da passagem, com a passagem comprada ela não estará disponível para compra no banco de dados, finalizando o tratamento da requisição.
 
 <h3> Vantagens e Limitações </h3>
 
 O controle temporal feito pelo algoritmo garante o ordenamento das requisições, garantindo que não ocorra competição simultânea pelo mesmo recurso. Além disso, a troca de mensagens é feita de ponta a ponto, oq ue evita uma possível sobrecarga durante a comunicação.
 
-Por se utilizar de características de controle temporais, em caso de ocorrência de muitas requisições simultâneas os processo terâo que aguardar por diversas repostas, ocasionando atrasos. A falha em um dos servidores, pode de certa forma ocasionar em falhas devido a dependência da resposta dos outros servidores para a liberação das requisições.
+Por se utilizar de características de controle temporais, em caso de ocorrência de muitas requisições simultâneas os processo terão que aguardar por diversas repostas, ocasionando atrasos. A falha em um dos servidores, pode de certa forma ocasionar em falhas devido a dependência da resposta dos outros servidores para a liberação das requisições.
 
 </div>
 </div>
@@ -133,11 +134,13 @@ Por se utilizar de características de controle temporais, em caso de ocorrênci
 
 Nos tópicos que envolvem a confiabilidade da solução, podemos analisar de maneira mais abrangente aqueles que envolvem os processos críticos de compra e cancelamento de uma passagem.
 
-Em ambos os casos o tratamento para uma situação de queda de um servidor é semelhante, caso esta situação venha a ocorrer o processo que esta ocorrendo no momento é cancelado. Por tanto, o cliente não conseguirá finalizar o seu carrinho de compras se nele estiver contida a passagem de um servidor em falha.
+Em ambos os casos o tratamento para uma situação de queda de um servidor é semelhante, caso esta situação venha a ocorrer o processo que esta ocorrendo no momento é cancelado. Por tanto, o cliente não conseguirá finalizar o seu carrinho de compras se nele estiver contida a passagem de um servidor em falha. A situação será repetida em caso de cancelamento da compra de passagem.
 
-O memso ocorre para o processo de cancelamento, com relação a queda de um servidor antes do momentro de conexão inical do cliente, o servidor em falha não estrá disponível para login.
+Caso o servidor não esteja ativo no momento da escolha de acesso do cliente, um tratamento de exceção é feito para que o cliente acesse somente servidores ativos.
 
-A concorrência distribuída pode não funcionar adequadamente caso a queda de um servidor aconteça, como temos um processo temporal cíclioco ocorrendo, existem chances de falha devido a não ocorrência de respostas pelo servidor falho.
+Em situações de estresse do sistema, podem ser observadas e esperadas algumas interferências. Isso ocorre principalmente em situações de acesso a região crítica, por ser utilizado um algoritmo de lógica temporal para controle da concorrência.
+
+Situações de uso extremo, com muitos acessos simultâneos também podem ocasionar problemas nas atualizações dos arquivos json utilizados no banco de dados. Por ser utilizado um sistema mais simples de leitura e escrita em json, o alto fluxo pode hiperdimensionar os métodos de escrita e atualização dos dados.
 
 </div>
 </div>
@@ -146,9 +149,13 @@ A concorrência distribuída pode não funcionar adequadamente caso a queda de u
 <h2> Conclusão </h2>
 <div align="justify">
 
-O projeto cumpri os requisitos principais que envolvem uma aplicação de sistemas distribuídos, a comunicação entre cliente/servidor e entre servidores distintos é feita de maneira satisfatória.
+Os tópicos principais que abrangem sistemas distribuídos e a concorrência distribuída foram corretamente abordados neste projeto, a distribuição de trechos entre mais de um servidor e a permissividade da compra em outros servidores é também aplicada no software.
 
-Para tratamento da concorrência distribuída, um ponto de extrema importância quando estamos lidando com sistemas distribuídos, é utilizado o algoritmo de Ricart-Agrawala.Estes pontos de maneira geral satisfazem e resolvem os principais problemas que envolvem uma aplicação deste ramo.
+A utilização do algoritmo de Ricart-Agrawala, apropriado para aplicações que possuem concorrência distribuída é aplicado de forma concreta em métodos que podem criar situações críticas de acesso a dados durante o processamento das requisições.Entretanto, devido a utilização deste algoritmo de lógica temporal, podem ser observados problemas de delay e atraso quando são processadas múltiplas requisições simultâneas.
+
+Soluções podem ser aplicadas para contornar os problemas de latência causados pelo algoritmo, a utilização de buffering de mensagens pode ser usada para ordenamento correto das requisições e o uso de um timeout pode útil para evitar a perda de requisições quando multíplas delas são enviadas simultaneamente.
+
+Outo ponto importante é a implementação de um 'rollback', para situações em que um servidor caia durante operações. Isso é importante para que o cliente não perca por exemplo, as compras no carrinho durante uma operação de compra em que o servidor tenha caído.
 
 </div>
 </div>

@@ -1,17 +1,38 @@
 from flask import Flask, request, jsonify
-from models.service.server_utils import carregar_rotas, carregar_usuarios, carregar_passagens, logar
 from models.service.server_utils import *
-from models.concorrencia_distribuida import RicartAgrawala
+# from models.concorrencia_distribuida import RicartAgrawala
+import threading
 
 app = Flask(__name__)
 
-# Instanciar o algoritmo Ricart-Agrawala
-ricart_agrawala = RicartAgrawala()
+# Instanciar o algoritmo Ricart-Agrawala para o ServerB
+# ricart_agrawala = RicartAgrawala('B', [('127.0.0.1', 65431), ('127.0.0.1', 65433)])  # IDs dos servidores A e C
+def atualizar():
+    rotas = carregar_rotas("2")
+    usuarios = carregar_usuarios()
+    passagens = carregar_passagens("2")
 
 # Carregar dados ao iniciar o servidor
-rotas = carregar_rotas("2")
+rotas = carregar_rotas("2")  # Presumindo que ServerB usa um arquivo de rotas específico
 usuarios = carregar_usuarios()
-passagens = carregar_passagens("2")
+passagens = carregar_passagens("2")  # Presumindo que ServerB usa um arquivo de passagens específico
+
+SERVER_ID = 'B'
+SERVERS = {
+    'A': 'http://127.0.0.1:65431',
+    'C': 'http://127.0.0.1:65433'
+}
+
+# Mutex para operações locais
+mutex = threading.Lock()
+
+@app.route('/ra_message', methods=['POST'])
+def pegar_mensagem():
+    print("mensagem recebida.")
+    mensagem = request.get_json()
+    print(mensagem)
+    processar_mensagem(mensagem, 'B')  # 'B' é o ID deste servidor
+    return jsonify({'status': 'mensagem processada'})
 
 @app.route('/status', methods=['GET'])
 def status():
@@ -19,33 +40,41 @@ def status():
 
 @app.route('/login', methods=['POST'])
 def realizar_login():
+    # pedir_acesso('B')
     dados = request.get_json()
     usuario_id = dados['id']
     senha = dados['senha']
     
     # Chamar a função de login
     resultado_login = logar(usuario_id, senha, usuarios)
-    
+    # liberar_acesso('B')
     return jsonify(resultado_login)
 
 @app.route('/rotas', methods=['GET'])
 def listar_rotas():
+    atualizar()
     return jsonify(rotas)
 
 @app.route('/usuarios', methods=['GET'])
 def listar_usuarios():
+    atualizar()
     return jsonify(usuarios)
 
 @app.route('/passagens', methods=['GET'])
 def listar_passagens():
+    atualizar()
     return jsonify(passagens)
 
 @app.route('/comprar_passagem', methods=['POST'])
 def comprar_passagem():
+    atualizar()
     dados = request.get_json()
     servidor = dados['servidor']
     userID = dados['cliente_id']
     rotas_a_serem_compradas = dados['rotas_a_serem_compradas']
+
+    # Solicitar acesso à seção crítica
+    # ricart_agrawala.request_critical_section()
 
     rotas_sem_vagas = []
     passagens_para_registrar = []
@@ -53,9 +82,10 @@ def comprar_passagem():
     for rota_compra in rotas_a_serem_compradas:
         rota_encontrada = False
         for rota_no_BD in rotas:
-            if rota_compra == rota_no_BD['ID']:
+            if int(rota_compra) == int(rota_no_BD['ID']):
                 rota_encontrada = True
                 print(f"Rota com ID:{rota_compra} encontrada.")
+                pedir_acesso('B')
                 with mutex:
                     if rota_no_BD['assentos_disponiveis'] > 0:
                         print(f"Há assentos disponíveis na rota {rota_compra}.")
@@ -76,11 +106,16 @@ def comprar_passagem():
                         atualizar_rotas(rotas)
                     else:
                         rotas_sem_vagas.append(rota_no_BD)
+                liberar_acesso('B')
                 break
         if not rota_encontrada:
             print(f"Rota com ID:{rota_compra} não encontrada.")
 
+    # Liberar a seção crítica
+    # ricart_agrawala.release_critical_section()
+
     if len(rotas_sem_vagas) == 0:
+        pedir_acesso('B')
         with mutex:
             for p in passagens_para_registrar:
                 passagens.append(p)
@@ -90,38 +125,44 @@ def comprar_passagem():
                         historico.append(p)
             atualizar_passagens(passagens)
             atualizar_usuarios(usuarios)
+        liberar_acesso('B')
         return jsonify({'status': 'compra realizada com sucesso'}), 200
     elif len(rotas_sem_vagas) == len(rotas_a_serem_compradas):
         return jsonify({'status': 'acabaram as vagas'}), 409
     else:
+        pedir_acesso('B')
         with mutex:
             for p in passagens_para_registrar:
                 for r in rotas:
                     if p['rota'] == r['trecho']:
                         r['assentos_disponiveis'] += 1
             atualizar_rotas(rotas)
+        liberar_acesso('B')
         return jsonify({'status': 'rotas indisponíveis', 'rotas_sem_vagas': rotas_sem_vagas}), 206
 
 
 @app.route('/cancelar_passagem', methods=['DELETE'])
 def cancelar_passagem():
-    
+    atualizar()
     dados = request.get_json()
     servidor = dados['servidor']
     userID = dados['cliente_id']
     passagemID = dados['passagem_id']
     
+    # Solicitar acesso à seção crítica
+    # ricart_agrawala.request_critical_section()
+
     print(f"\npassagemID: {passagemID} | userID: {userID} | passagens: {passagens} | usuarios: {usuarios} | servidor: {servidor}\n")
     if int(passagemID) == 0:
         print("cancelamento cancelado")
-        return "Voltando para o menu"
+        return jsonify("Voltando para o menu")
     for user in usuarios:
         for passagem in user['passagens']:
             if passagem['id_passagem'] == int(passagemID):
                 print("A passagem foi encontrada.")
                 if passagem['cliente_id'] != userID:
                     print("Passagem de outro usuario")
-                    return f"Essa passagem pertence ao usuario {passagem['cliente_id']}."
+                    return jsonify(f"Essa passagem pertence ao usuario {passagem['cliente_id']}.")
                 if passagem['servidor'] != servidor:
                     print("Essa passagem pertence a outro servidor")
                     return
@@ -133,13 +174,22 @@ def cancelar_passagem():
                             for p in user['passagens']:
                                 if int(p['id_passagem']) == int(passagemID):
                                     p['estaCancelado'] = 1
+                    pedir_acesso('B')
                     with mutex:
                         atualizar_passagens(passagens)
                         atualizar_usuarios(usuarios)
-                    return "Passagem cancelada com sucesso."
+                    liberar_acesso('B')
+                    # Liberar a seção crítica após cancelamento
+                    # ricart_agrawala.release_critical_section()
+                    return jsonify("Passagem cancelada com sucesso.")
                 else:
-                    return "A passagem ja foi cancelada"
-    return "Passagem não encontrada."
+                    # ricart_agrawala.release_critical_section()
+                    return jsonify("A passagem ja foi cancelada")
+
+    # Liberar a seção crítica em caso de erro
+    # ricart_agrawala.release_critical_section()
+    return jsonify("Passagem não encontrada.")
 
 if __name__ == '__main__':
     app.run(host='127.0.0.2', port=65432)
+

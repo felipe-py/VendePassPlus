@@ -31,7 +31,8 @@ def listar_rotas(servidor):
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        print(f"Erro ao listar rotas no servidor {servidor}: {e}")
+        # print(f"Erro ao listar rotas no servidor {servidor}: {e}")
+        print(f"Erro ao listar rotas no servidor {servidor}: verifique se o servidor esta online.")
         return None
 
 def listar_passagens(servidor):
