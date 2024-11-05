@@ -1,299 +1,84 @@
-import socket
-import json
-from models.client.cliente_utils import * 
-import time
-import sys
-# O host antigo era 'servidor_container'
-#HOST = '0.0.0.0'
-#PORT = 65434
+from models.client.cliente_utils import *
+from models.client.cliente_utils_connection import *
 
-
-def main():
-    user = '0'
+if __name__ == "__main__":
+    
     while True:
-        try:
-            # servidor = input("Em qual servidor gostaria de se conectar?\n")
-            # while (servidor != '1') and (servidor != '2') and (servidor != '3'):
-            #     servidor = input("Por favor, insira um servidor válido (1, 2 ou 3)\n")
-            # if servidor == '1':
-            #     HOST = '127.0.0.200'
-            #     PORT = 65432
-            # elif servidor == '2':
-            #     HOST = '127.0.0.201'
-            #     PORT = 65433
-            # elif servidor == '3':
-            #     HOST = '127.0.0.202'
-            #     PORT = 65434
-            # s1 = conectar(HOST, PORT)
+        print("\n\n=== ESCOLHA A COMPANHIA QUE DESEJA INICIAR AS SUAS COMPRAS ===\n")
+        print("(A) COMPANHIA A\n(B) COMPANHIA B\n(C) COMPANHIA C")
+        
+        servidor_escolhido = input()
+        while verifica_escolha_servidor(servidor_escolhido):
+            servidor_escolhido = input("SERVIDOR ESCOLHIDO É INVÁLIDO. DIGITE NOVAMENTE: ")
+        
+        # Verificar se o servidor está ativo
+        status = verificar_servidor(servidor_escolhido)
+        if status and status['status'] == 'ativo':
+            print(f"\nSEJA BEM-VINDO À COMPANHIA AÉREA {servidor_escolhido}")
+            break  # Sai do loop, pois o servidor está ativo
+        else:
+            print(f"Servidor {servidor_escolhido} não está ativo ou não pôde ser alcançado. Tente novamente.")
 
-            HOST1 = '127.0.0.200'
-            PORT1 = 65432
+    # Realizar login
+    print("\n\n === REALIZE O LOGIN ===\n\n")
+    usuario_id = input("DIGITE O ID: ")
+    senha = input("DIGITE A SENHA:")          
+    login_resultado = realizar_login(servidor_escolhido, usuario_id, senha)
+    
+    if login_resultado and login_resultado['status'] == 'sucesso':
+        while True:
+            print("\n=== Login realizado com sucesso! ===")
+            
+            print(f"\nBem-vindo(a) {usuario_id}, o que gostaria de fazer?\n\n")
+            print("1. Comprar uma passagem")
+            print("2. Cancelar uma compra")
+            print("3. Sair")
 
-            HOST2 = '127.0.0.201'
-            PORT2 = 65433
-
-            HOST3 = '127.0.0.202'
-            PORT3 = 65434
-
-            try:
-                s1 = conectar(HOST1, PORT1)
-                print(s1)
-                print("Sucesso ao se conectar com o Server A\n")
-                server_A_ligado = True
-            except:
-                server_A_ligado = False
-                pass
-            try:
-                s2 = conectar(HOST2, PORT2)
-                print(s2)
-                print("Sucesso ao se conectar com o Server B\n")
-                server_B_ligado = True
-            except:
-                server_B_ligado = False
-                pass
-            try:
-                s3 = conectar(HOST3, PORT3)
-                print(s3)
-                print("Sucesso ao se conectar com o Server C\n")
-                server_C_ligado = True
-            except:
-                server_C_ligado = False
-                pass
-            espacos()
-            # print("Conectado.")
-            espacos()
-            # break
-        except ConnectionRefusedError:
-            print(f"A conexão com o servidor {HOST} na porta {PORT} falhou")
-            time.sleep(1)
-
-    # while True:
-        while user == '0':
-            try:
-                user = login(s1)
-            except:
-                try:
-                    user = login(s2)
-                except:
-                    user = login(s3)
-        if user == "sair":
-            break
-
-        elif user:
-            while True:
-                operacao = menu(user)
-                try:
-                    s1 = conectar(HOST1, PORT1)
-                    print(s1)
-                    print("Sucesso ao se conectar com o Server A\n")
-                    server_A_ligado = True
-                except:
-                    server_A_ligado = False
-                    pass
-                try:
-                    s2 = conectar(HOST2, PORT2)
-                    print(s2)
-                    print("Sucesso ao se conectar com o Server B\n")
-                    server_B_ligado = True
-                except:
-                    server_B_ligado = False
-                    pass
-                try:
-                    s3 = conectar(HOST3, PORT3)
-                    print(s3)
-                    print("Sucesso ao se conectar com o Server C\n")
-                    server_C_ligado = True
-                except:
-                    server_C_ligado = False
-                    pass
-                if operacao != '3':
-                    if operacao == '1':
-                        try:
-                            mostrar_rotas(s1)
-                        except:
-                            pass
-                        try:
-                            mostrar_rotas(s2)
-                        except:
-                            pass
-                        try:
-                            mostrar_rotas(s3)
-                        except:
-                            pass
-
-                        rotas_a_serem_compradas = []
-                        passagens_do_servidor_1 = []
-                        passagens_do_servidor_2 = []
-                        passagens_do_servidor_3 = []
-
-                        mais_rotas = 's'
-                        while mais_rotas.lower() == 'y' or mais_rotas.lower() == 's':
-                            rotaID = input("\nInsira o ID da rota desejada ou pressione '0' para cancelar a operação: ")
-                            while int(rotaID)<0 or int(rotaID)>90:
-                                print(f"Não há rota {rotaID} no sistema. Por favor selecione uma rota valida.\n")
-                                rotaID = input("\nInsira o ID da rota desejada ou pressione '0' para cancelar a operação: ")
-                            if int(rotaID) == 0:
-                                print("saindo")
-                                break
-                            rotas_a_serem_compradas.append(rotaID)
-                            espacos()
-                            mais_rotas = input("\nGostaria de comprar mais uma rota?[y/N]\n: ")
-                        if int(rotaID) == 0:
-                            break
-                        for rota in rotas_a_serem_compradas:
-                            if int(rota)>60:
-                                passagens_do_servidor_3.append(rota)
-                            if int(rota)>30:
-                                passagens_do_servidor_2.append(rota)
-                            else:
-                                passagens_do_servidor_1.append(rota)
-
-                        mensagem_server_1 = {
-                            'cliente_id': user,
-                            #'rotaID': rotaID
-                            'rotas_a_serem_compradas': passagens_do_servidor_1,
-                        }
-                        mensagem_server_2 = {
-                            'cliente_id': user,
-                            #'rotaID': rotaID
-                            'rotas_a_serem_compradas': passagens_do_servidor_2
-                        }
-                        mensagem_server_3 = {
-                            'cliente_id': user,
-                            #'rotaID': rotaID
-                            'rotas_a_serem_compradas': passagens_do_servidor_3
-                        }
-                        disponibilidade_em_1 = True
-                        disponibilidade_em_2 = True
-                        disponibilidade_em_3 = True
-
-                        continuar = True
-                        try:
-                            for rota in passagens_do_servidor_1:
-                                resposta = verificar_sobras(s1, rota)
-                                print(f"resposta: {resposta}\n")
-                                if resposta < 1:
-                                    disponibilidade_em_1 = False
-                        except:
-                            disponibilidade_em_1=False
-                            pass
-                        try:
-                            for rota in passagens_do_servidor_2:
-                                resposta = verificar_sobras(s2, rota)
-                                print(f"resposta: {resposta}\n")
-                                if resposta < 1:
-                                    disponibilidade_em_2 = False
-                        except:
-                            print("falha em comunicação.\n")
-                            disponibilidade_em_2=False
-                            pass
-                        try:
-                            for rota in passagens_do_servidor_3:
-                                resposta = verificar_sobras(s3, rota)
-                                print(f"resposta: {resposta}\n")
-                                if resposta < 1:
-                                    disponibilidade_em_3 = False
-                        except:
-                            disponibilidade_em_3=False
-                            pass
-                        
-                        if len(passagens_do_servidor_1)<1:
-                            disponibilidade_em_1 = True
-                        if len(passagens_do_servidor_2)<1:
-                            disponibilidade_em_2=True
-                        if len(passagens_do_servidor_3)<1:
-                            disponibilidade_em_3=True
-
-                        print(f"disponibilidade_em_1: {disponibilidade_em_1} | disponibilidade_em_2: {disponibilidade_em_2} | disponibilidade_em_3: {disponibilidade_em_3}\n")
-                        if (disponibilidade_em_1==False) or (disponibilidade_em_2==False) or (disponibilidade_em_3==False):
-                            continuar = False
-                            print(f"continuar: {continuar}\n")
-                            break
-
-                        print(f"continuar: {continuar}\n")
-                        print(f"Continuar : {continuar}")
-                        if continuar:
-                            if server_A_ligado:
-                                try:
-                                    comprar_passagem(user, s1, mensagem_server_1)
-                                except:
-                                    pass
-                            if server_B_ligado:
-                                try:
-                                    comprar_passagem(user, s2, mensagem_server_2)
-                                except:
-                                    pass
-                            if server_C_ligado:
-                                try:
-                                    comprar_passagem(user, s3, mensagem_server_3)
-                                except:
-                                    pass
-                    if operacao == '2':
-                        print(f"Passagens Compradas por {user}:\n")
-                        try:
-                            mostrar_passagens(s1, user)
-                        except:
-                            try: 
-                                mostrar_passagens(s2, user)
-                            except:
-                                mostrar_passagens(s3, user)
-                        passagem_a_ser_cancelada = input("\nQual passagem gostaria de cancelar?\n")
-                        if passagem_a_ser_cancelada != '0':
-                            try:
-                                cancelar_compra(s1, passagem_a_ser_cancelada, user)
-                                # cancelar_compra(s2, passagem_a_ser_cancelada, user)
-                                # cancelar_compra(s3, passagem_a_ser_cancelada, user)
-                            except:
-                                pass
-                            try:
-                                cancelar_compra(s2, passagem_a_ser_cancelada, user)
-                            except:
-                                pass
-                            try:
-                                cancelar_compra(s3, passagem_a_ser_cancelada, user)
-                            except:
-                                pass
-                                # try:
-                                #     cancelar_compra(s2, passagem_a_ser_cancelada, user)
-                                # except:
-                                #     cancelar_compra(s3, passagem_a_ser_cancelada, user)
-                        # companhia = input(" De qual companhia você deseja cancelar a passagem? '0' para sair\n")
-                        # while companhia.lower() != 'a' and companhia.lower() != 'b' and companhia.lower() != 'c' and companhia != '0':
-                        #     companhia = input("Por favor selecione uma companhia válida (A,B ou C)\n")
-                        # if companhia != '0':
-                        #     passagemID = input("Insira o ID da passagem ou pressione '0' para cancelar a operação:\n ")
-                        #     if companhia.lower() == 'a':
-                        #         cancelar_compra(s1, user)
-                        #     elif companhia.lower() == 'b':
-                        #         cancelar_compra(s2, user)
-                        #     elif companhia.lower() == 'c':
-                        #         cancelar_compra(s3, user)
-                        # if companhia == '0':
-                        #     break
-                    try:
-                        logout(s1) 
-                    except:
-                        try:
-                            logout(s2)
-                        except:
-                            logout(s3)
-                    break
-                
-                else:
-                    sys.exit()
-                    # print("Credenciais incorretas, tente novamente.")
-                    # try:
-                    #     user = login(s1)
-                    # except:
-                    #     try:
-                    #         user = login(s2)
-                    #     except:
-                    #         user = login(s3)
-                    # espacos()
+            operacao = input("\n: ")
+            while verificar_escolha_menu(operacao):
+                operacao = input("OPERAÇÃO INVÁLIDA. DIGITE NOVAMENTE: ")
+            
+            if operacao == '1':
+                    print(f"\n\n ==== ROTAS DISPONÍVEIS PARA A COMPANHIA {servidor_escolhido} ===\n\n")
                     
-    # user = login(s1)
-    #
-    # if user:
-    #     menu(s1, user)
+                    ver_rotas(listar_rotas(servidor_escolhido))
+                    
+                    print(f"=== DESEJA COMPRAR SUA PASSAGEM NA COMPANHIA {servidor_escolhido} OU VER ROTAS DE OUTRAS COMPANHIAS? ===")
+                    print(f"(1) Continuar na companhia {servidor_escolhido}\n(2) Ver rotas de outras companhias")
+                    
+                    escolha_companhia = input()
+                    while verificar_escolha_companhia_compra(escolha_companhia):
+                        escolha_companhia = input("OPERAÇÃO ONVÁLIDA. DIGITE NOVAMENTE: ")
+                        
+                    if escolha_companhia == '1':
+                        realizar_compra(servidor_escolhido,usuario_id)
+                    
+                    elif escolha_companhia == '2':
+                        print("\n\n====== PASSAGENS DISPONÍVEIS NAS COMPANHIAS PARCEIRAS ======")
+                        outras_companhias = filtrar_companhias(servidor_escolhido)
+                        
+                        print(f"=> ROTAS DA COMPANHIA {outras_companhias[0]} <=")
+                        ver_rotas(listar_rotas(outras_companhias[0]))
+                        
+                        print(f"=> ROTAS DA COMPANHIA {outras_companhias[1]} <=")
+                        ver_rotas(listar_rotas(outras_companhias[1]))
 
-main()
+                        print("\n\n===== DESEJA REALIZAR A COMPRA EM QUAL SERVIDOR ======")
+                        print(f"({outras_companhias[0]}) Companhia {outras_companhias[0]}\n({outras_companhias[1]}) Companhia {outras_companhias[1]}")
+                
+                        novo_servidor_escolhido = input()
+                        while verifica_escolha_servidor(novo_servidor_escolhido):
+                            novo_servidor_escolhido = input("SERVIDOR ESCOLHIDO É INVÁLIDO. DIGITE NOVAMENTE: ")
+
+                        realizar_compra(novo_servidor_escolhido, usuario_id)
+                        
+            elif operacao == '2':
+                realizar_cancelamento(servidor_escolhido, usuario_id)
+            
+            elif operacao == '3':
+                print("Saindo...")
+                break
+            
+    else:
+        print("Falha no login:", login_resultado.get('mensagem', 'Erro desconhecido'))
+        
