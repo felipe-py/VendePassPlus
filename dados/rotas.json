@@ -30,7 +30,7 @@
     {
         "ID": "34",
         "trecho": "Natal -> Belo Horizonte",
-        "assentos_disponiveis": 20,
+        "assentos_disponiveis": 19,
         "cidadeSaida": "Natal",
         "cidadeChegada": "Belo Horizonte"
     },
@@ -191,7 +191,7 @@
     {
         "ID": "57",
         "trecho": "Rio de Janeiro -> Fortaleza",
-        "assentos_disponiveis": 19,
+        "assentos_disponiveis": 20,
         "cidadeSaida": "Rio de Janeiro",
         "cidadeChegada": "Fortaleza"
     },

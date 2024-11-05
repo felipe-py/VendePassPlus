@@ -1,9 +1,9 @@
 [
     {
-        "id_passagem": 28,
-        "cliente_id": "1",
-        "rota": "Salvador -> Curitiba",
-        "estaCancelado": false,
-        "servidor": "A"
+        "id_passagem": 38,
+        "cliente_id": "2",
+        "rota": "Natal -> Belo Horizonte",
+        "estaCancelado": 1,
+        "servidor": "B"
     }
 ]

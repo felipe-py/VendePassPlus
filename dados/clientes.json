@@ -135,6 +135,62 @@
                 "rota": "Rio de Janeiro -> Fortaleza",
                 "estaCancelado": 1,
                 "servidor": "B"
+            },
+            {
+                "id_passagem": 30,
+                "cliente_id": "1",
+                "rota": "Natal -> Teresina",
+                "estaCancelado": false,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 31,
+                "cliente_id": "1",
+                "rota": "Natal -> Teresina",
+                "estaCancelado": false,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 32,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> Salvador",
+                "estaCancelado": false,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 33,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
+                "estaCancelado": false,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 34,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
+                "estaCancelado": false,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 35,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
+                "estaCancelado": false,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 36,
+                "cliente_id": "1",
+                "rota": "Rio de Janeiro -> S\u00e3o Paulo",
+                "estaCancelado": false,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 37,
+                "cliente_id": "1",
+                "rota": "Manaus -> Curitiba",
+                "estaCancelado": false,
+                "servidor": "C"
             }
         ]
     },
@@ -153,7 +209,14 @@
                 "id_passagem": 20,
                 "cliente_id": "2",
                 "rota": "S\u00e3o Paulo -> Teresina",
-                "estaCancelado": false,
+                "estaCancelado": 1,
+                "servidor": "B"
+            },
+            {
+                "id_passagem": 38,
+                "cliente_id": "2",
+                "rota": "Natal -> Belo Horizonte",
+                "estaCancelado": 1,
                 "servidor": "B"
             }
         ]
