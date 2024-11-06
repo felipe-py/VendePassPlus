@@ -1,12 +1,8 @@
 from flask import Flask, request, jsonify
 from models.service.server_utils import *
-# from models.concorrencia_distribuida import RicartAgrawala
 import threading
 
 app = Flask(__name__)
-
-# Instanciar o algoritmo Ricart-Agrawala
-# ricart_agrawala = RicartAgrawala('A', [('127.0.0.1', 65432), ('127.0.0.1', 65433)])  # IDs dos servidores B e C
 
 # Carregar dados ao iniciar o servidor
 def atualizar():
@@ -150,9 +146,6 @@ def cancelar_passagem():
     servidor = dados['servidor']
     userID = dados['cliente_id']
     passagemID = dados['passagem_id']
-    
-    # Solicitar acesso à seção crítica
-    # ricart_agrawala.request_critical_section()
 
     print(f"\npassagemID: {passagemID} | userID: {userID} | passagens: {passagens} | usuarios: {usuarios} | servidor: {servidor}\n")
     if int(passagemID) == 0:
@@ -188,8 +181,6 @@ def cancelar_passagem():
                     # ricart_agrawala.release_critical_section()
                     return jsonify("A passagem ja foi cancelada")
 
-    # Liberar a seção crítica em caso de erro
-    # ricart_agrawala.release_critical_section()
     return jsonify("Passagem não encontrada.")
 
 if __name__ == '__main__':

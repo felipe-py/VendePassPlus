@@ -60,10 +60,6 @@ if __name__ == "__main__":
                     except:
                         pass    
 
-                    # print(f"=== DESEJA COMPRAR SUA PASSAGEM NA COMPANHIA {servidor_escolhido} OU VER ROTAS DE OUTRAS COMPANHIAS? ===")
-                    # print(f"(1) Continuar na companhia {servidor_escolhido}\n(2) Ver rotas de outras companhias\n\n(0) Voltar ao menu")
-    
-                    # escolha_companhia = input()
                     r = int(input("INDIQUE A ROTA QUE DESEJA COMPRAR (0 PARA SAIR): "))
                     if r == '0':
                         break
@@ -89,65 +85,9 @@ if __name__ == "__main__":
                             print("Falha ao comprar em A.")
                             pass
 
-
-                    # if escolha_companhia != '0':
-                    #     while verificar_escolha_companhia_compra(escolha_companhia):
-                    #         escolha_companhia = input("OPERAÇÃO ONVÁLIDA. DIGITE NOVAMENTE: ")
-                    #
-                    #     if escolha_companhia == '1':
-                    #         realizar_compra(servidor_escolhido,usuario_id)
-                    #
-                    #     elif escolha_companhia == '2':
-                    #         print("\n\n====== PASSAGENS DISPONÍVEIS NAS COMPANHIAS PARCEIRAS ======")
-                    #         outras_companhias = filtrar_companhias(servidor_escolhido)
-                    #
-                    #         print(f"=> ROTAS DA COMPANHIA {outras_companhias[0]} <=")
-                    #         ver_rotas(listar_rotas(outras_companhias[0]))
-                    #
-                    #         print(f"=> ROTAS DA COMPANHIA {outras_companhias[1]} <=")
-                    #         ver_rotas(listar_rotas(outras_companhias[1]))
-                    #
-                    #         print("\n\n===== DESEJA REALIZAR A COMPRA EM QUAL SERVIDOR ======")
-                    #         print(f"({outras_companhias[0]}) Companhia {outras_companhias[0]}\n({outras_companhias[1]}) Companhia {outras_companhias[1]}")
-                    #
-                    #         novo_servidor_escolhido = input()
-                    #         while verifica_escolha_servidor(novo_servidor_escolhido):
-                    #             novo_servidor_escolhido = input("SERVIDOR ESCOLHIDO É INVÁLIDO. DIGITE NOVAMENTE: ")
-                    #
-                    #         realizar_compra(novo_servidor_escolhido, usuario_id)
                         
             elif operacao == '2':
                 realizar_cancelamento(usuario_id)
-                # servidores = ['A', 'B', 'C']
-                # passagens_cliente = []
-                #
-                # for s in servidores:
-                #     try:
-                #         if listar_passagens(servidor):
-                #             for cliente in listar_passagens(servidor):
-                #                 if cliente['id'] == user_id:
-                #                     for info in cliente['passagens']:
-                #                         if info['estaCancelado'] != 1 and info['servidor'] == servidor:
-                #                             print(f"ID DA PASSAGEM: {info['id_passagem']} | ROTA: {info['rota']} | SERVIDOR: {info['servidor']}")
-                #                             passagens_cliente.append(info['id_passagem'])
-                #     except:
-                #         pass
-                #     if passagens_cliente != []:
-                #         passagem_id = int(input("DIGITE O ID DA PASSAGEM QUE DESEJA CANCELAR (OU DIGITE 0 PARA SAIR):\n"))
-                #         if passagem_id == 0:
-                #             print("\nRETORNANDO AO MENU\n")
-                #         while verifica_passagem_escolhida(passagens_cliente,passagem_id):
-                #             passagem_id = int(input("PASSAGEM INVÁLIDA. DIGITE NOVAMENTE: "))  
-                #
-                #     else:
-                #         print("\n\nNEHUMA PASSAGEM ENCONTRADA\n\n")
-                #
-                #     for s in servidores:
-                #         try:
-                #             cancelamento_resultado = cancelar_passagem(servidor, passagem_id,user_id)
-                #             print("Resultado do cancelamento:", cancelamento_resultado)
-                #         except:
-                #             pass
                     
             elif operacao == '3':
                 print("Saindo...")

@@ -1,12 +1,9 @@
 from flask import Flask, request, jsonify
 from models.service.server_utils import *
-# from models.concorrencia_distribuida import RicartAgrawala
 import threading
 
 app = Flask(__name__)
 
-# Instanciar o algoritmo Ricart-Agrawala para o ServerC
-# ricart_agrawala = RicartAgrawala('C', [('127.0.0.1', 65431), ('127.0.0.1', 65432)])  # IDs dos servidores A e B
 def atualizar():
     rotas = carregar_rotas("3")
     usuarios = carregar_usuarios()
@@ -73,9 +70,6 @@ def comprar_passagem():
     userID = dados['cliente_id']
     rotas_a_serem_compradas = dados['rotas_a_serem_compradas']
 
-    # Solicitar acesso à seção crítica
-    # ricart_agrawala.request_critical_section()
-
     rotas_sem_vagas = []
     passagens_para_registrar = []
 
@@ -110,9 +104,6 @@ def comprar_passagem():
                 break
         if not rota_encontrada:
             print(f"Rota com ID:{rota_compra} não encontrada.")
-
-    # Liberar a seção crítica
-    # ricart_agrawala.release_critical_section()
 
     if len(rotas_sem_vagas) == 0:
         pedir_acesso('C')
@@ -149,9 +140,6 @@ def cancelar_passagem():
     userID = dados['cliente_id']
     passagemID = dados['passagem_id']
     
-    # Solicitar acesso à seção crítica
-    # ricart_agrawala.request_critical_section()
-
     print(f"\npassagemID: {passagemID} | userID: {userID} | passagens: {passagens} | usuarios: {usuarios} | servidor: {servidor}\n")
     if int(passagemID) == 0:
         print("cancelamento cancelado")
@@ -186,8 +174,6 @@ def cancelar_passagem():
                     # ricart_agrawala.release_critical_section()
                     return jsonify("A passagem ja foi cancelada")
 
-    # Liberar a seção crítica em caso de erro
-    # ricart_agrawala.release_critical_section()
     return jsonify("Passagem não encontrada.")
 
 if __name__ == '__main__':
