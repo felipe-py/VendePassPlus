@@ -73,6 +73,51 @@ Os recursos http são utilizados da mesma forma, assim como os requests utilizad
 <h2> Protocolo de Comunicação </h2>
 <div align="justify">
 
+Como discutido anteriormente de forma breve, a comunicação entre os agentes do sistema é feita utilizando protocolo http, com endpoints em RESTful implementados com a biblioteca Flask do python.
+
+Cada servidor responderá as requisições enviadas pelo cliente executa as operações necessárias que garatem a integridade dos dados e o controle da concorrência, com um mutex e com o algoritmo distribuído de Ricart-Agrawala. O mutex garante o controle para operações locais e o algoritmo para a sincronização distribuída.
+
+<h3> Estrutura do cservidor </h3>
+
+Cada servidor é executado usando o Flask em seu servidor especifíco, exponndo endpoints para diversas situações especificas. São elas:
+
+* Login de usuários (/login): valida as credenciais do usuário e retorna o resultado.
+
+* Listagem de rotas (/rotas): retorna as rotas disponíveis.
+
+* Listagem de usuários (/usuarios): retorna informações dos usuários.
+
+* Listagem de passagens (/passagens): retorna as passagens registradas.
+
+* Compra de passagens (/comprar_passagem): realiza o processo de compra, garantindo a integridade de dados com bloqueio (mutex).
+
+* Cancelamento de passagens (/cancelar_passagem): cancela uma passagem existente, com controle para operações distribuídas.
+
+<h3> Fluxo de operações </h3> 
+
+Nesta seção serão apresentados os métodos utilizados, além dos verbos e endpoints relacionados a cada um deles.
+
+1. Verificando status do servidor:
+
+Antes de realizar qualquer operação em um determinado servidor é necessário atestar que ele esta ativo, esta é a função deste método. Será enviada uma requisição 'GET' para o endpoint /status, um dicionário é utilizado para o envio da resposta.
+
+2. Login;
+
+O cliente realiza o envio de uma requisição 'POST' ao endpoint /login, o servidor deve então verificar as credenciais enviadas para confirmar o login.
+
+3. Listagem das rotas, passagens e usuários:
+
+Para ter acesso as informações no banco de dados relacionadas as rotas, passagens e usuários, é enviado uma requisição 'GET' para o endpoint especifico da ação. Este endpoint pode ser /rotas, /passagens ou /usuarios.
+
+4. Compra da passagem:
+
+O processo de compra é iniciado com uma requisição 'POST' ao endpoint /comprar_passagem, é passado o id do cliente que esta realizando a compra e as rotas que serão compradas. Se as passagens forem confirmadas é feita a atualização no banco de dados.
+
+A resposta do servidor pode incluir '200' caso a compra tenha sido feita com sucesso, '409' em caso de erro ou '206' se apenas algumas das rotas selecionadas estão disponíveis.
+
+5. Cancelamento da passagem:
+
+UMa requisição 'DELETE' é enviada ao endpoint /cancelar_passagem, é passado o id do cliente, o servidor de origem da passagem e o id da passagem a ser cancelada. O servidor então realiza a busca da passagem e marca seu staus como cancelada, ela não será apagada do sistema.
 
 
 </div>
