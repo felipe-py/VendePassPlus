@@ -15,9 +15,9 @@ COPY . /app
 RUN pip install -r requirements.txt
 
 # Expor a porta do servidor
-EXPOSE 65432
+EXPOSE 65433
 
 ENV PYTHONUNBUFFERED=1
 # Definir o comando para rodar o servidor
-CMD ["python3", "ServerON.py"]
+CMD ["python3", "ServerC.py"]
 

@@ -1,14 +1,10 @@
 import requests
 
-# LISTA DOS SERVIDORES DISPONÍVEIS NO SISTEMA, COM SEUS RESPECTIVOS IP E PORTA
 SERVIDORES = {
     'A': 'http://127.0.0.1:65431',
     'B': 'http://127.0.0.2:65432',
     'C': 'http://127.0.0.3:65433'
 }
-
-# grupo de funções para envio dos dados necessários nas mais diversas operações no servidor
-# é feito o envio das informações necessárias em cada função
 
 def verificar_servidor(servidor):
     try:
@@ -35,6 +31,7 @@ def listar_rotas(servidor):
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
+        # print(f"Erro ao listar rotas no servidor {servidor}: {e}")
         print(f"Erro ao listar rotas no servidor {servidor}: verifique se o servidor esta online.")
         return None
 

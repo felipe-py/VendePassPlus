@@ -1,0 +1,23 @@
+# Usar imagem base do Python
+FROM python:3.8
+
+# Definir diretório de trabalho
+WORKDIR /app
+
+# Copiar arquivos necessários
+# COPY ServerON.py /app
+# COPY models/service/ /app/models/service/
+# COPY dados/ /app/dados/
+# COPY requirements.txt /app
+COPY . /app
+
+# Instalar dependências se houver (ex: bibliotecas como fastapi, sqlite, etc)
+RUN pip install -r requirements.txt
+
+# Expor a porta do servidor
+EXPOSE 65431
+
+ENV PYTHONUNBUFFERED=1
+# Definir o comando para rodar o servidor
+CMD ["python3", "ServerA.py"]
+

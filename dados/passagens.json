@@ -1,9 +1,23 @@
 [
     {
-        "id_passagem": 51,
+        "id_passagem": 66,
         "cliente_id": "1",
-        "rota": "Curitiba -> Manaus",
+        "rota": "Recife -> S\u00e3o Paulo",
         "estaCancelado": 1,
-        "servidor": "C"
+        "servidor": "A"
+    },
+    {
+        "id_passagem": 67,
+        "cliente_id": "1",
+        "rota": "Recife -> Natal",
+        "estaCancelado": 1,
+        "servidor": "A"
+    },
+    {
+        "id_passagem": 68,
+        "cliente_id": "1",
+        "rota": "Recife -> Natal",
+        "estaCancelado": false,
+        "servidor": "A"
     }
 ]
