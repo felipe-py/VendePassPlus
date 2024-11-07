@@ -77,7 +77,7 @@ Como discutido anteriormente de forma breve, a comunicação entre os agentes do
 
 Cada servidor responderá as requisições enviadas pelo cliente executa as operações necessárias que garatem a integridade dos dados e o controle da concorrência, com um mutex e com o algoritmo distribuído de Ricart-Agrawala. O mutex garante o controle para operações locais e o algoritmo para a sincronização distribuída.
 
-<h3> Estrutura do cservidor </h3>
+<h3> Estrutura do servidor </h3>
 
 Cada servidor é executado usando o Flask em seu servidor especifíco, exponndo endpoints para diversas situações especificas. São elas:
 
